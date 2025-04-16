@@ -1335,6 +1335,7 @@ table, th, td {
     color: black;
     gap: 2rem;
     padding: 2rem;
+    overflow-x: scroll;
 }
 .dashboard .adBtn{
     /* background-color: #3533ac; */

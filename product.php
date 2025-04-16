@@ -1,5 +1,23 @@
 <?php
 Include 'partials/header.php';
+
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    echo "Product-ID invalid.";
+    exit;
+}
+
+$id = intval($_GET['id']);
+$stmt = $connection->prepare("SELECT * FROM products WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$product = $stmt->get_result()->fetch_assoc();
+
+if (!$product) {
+    echo "Product not found.";
+    exit;
+}
+
+
 ?>
 <!----========================================== Product Info Section ============================================---->  
 <div class="product__container">
@@ -7,44 +25,70 @@ Include 'partials/header.php';
     <!-- Produktdetails -->
     <div class="product-section">
       <div class="product-image">
-        <img class="main__prImage" src="images/1.jpg">
+        <!-- <img class="main__prImage" src="images/1.jpg"> -->
+        <?php if (!empty($product["image1"])): ?>
+                <img class="main__prImage" src="admin/images/<?= htmlspecialchars($product["image1"]) ?>">
+        <?php endif; ?>
         <div class="thumbnail">
-            <img class="tn__image" src="images/1.jpg">
-            <img class="tn__image" src="images/2.jpg">
-            <img class="tn__image" src="images/3.png">
-            <img class="tn__image" src="images/4.png">
+          <?php for ($i = 1; $i <= 4; $i++): ?>
+            <?php if (!empty($product["image$i"])): ?>
+              <img class="tn__image" src="admin/images/<?= htmlspecialchars($product["image$i"]) ?>" style="cursor:pointer;">
+            <?php endif; ?>
+          <?php endfor; ?>
         </div>
       </div>
       <div class="product-info">
         <div class="first__infos">
-            <h1>Boucles Anais</h1>
-            <h4>5.000 Fcfa</h4>
+            <!-- <h1>Boucles Anais</h1> -->
+            <?php if (!empty($product["title"])): ?>
+                <h1><?= htmlspecialchars($product["title"]) ?></h1>
+            <?php endif; ?>
+            <!-- <h4>5.000 Fcfa</h4> -->
+            <?php if ($product['price'] !== $product['final_price']): ?>
+              <p><del><?= $product['price'] ?> CFA</del></p>
+              <p><strong><?= $product['final_price'] ?> CFA</strong></p>
+            <?php else: ?>
+              <p><strong><?= $product['price'] ?> CFA</strong></p>
+            <?php endif; ?>
+
+            <!-- <?php if (!empty($product["final_price"])): ?>
+                <h4><?= htmlspecialchars($product["final_price"]) ?></h4>
+            <?php endif; ?> -->
         </div>
         <div class="specific__infos">
             <ul>
-                <li>Material:</li>
+                <!-- <li>Material:</li>
                 <li>Couleur:</li>
-                <li>Taille:</li>
+                <li>Taille:</li> -->
+                <?php if (!empty($product["material"])): ?>
+                <li><?= htmlspecialchars($product["material"]) ?></li>
+                <?php endif; ?>
+                <?php if (!empty($product["color"])): ?>
+                <li><?= htmlspecialchars($product["color"]) ?></li>
+                <?php endif; ?>
+                <?php if (!empty($product["size"])): ?>
+                <li><?= htmlspecialchars($product["size"]) ?></li>
+                <?php endif; ?>
+                
             </ul>
         </div>
         <button class="ajout">Ajouter au panier</button>
         <div class="bullets">
-            <p class="bullets__start">
-                Dieser elegante Ring aus 925er Silber mit Goldbeschichtung kombiniert zeitlose Eleganz mit modernem Stil.
-                Ideal für besondere Anlässe oder als edles Geschenk. Erhältlich in verschiedenen Größen.
-            </p>
+            <?php if (!empty($product["description1"])): ?>
+                <p class="bullets__start"><?= htmlspecialchars($product["description1"]) ?></p>
+            <?php endif; ?>
             <div class="bullets__items">
                 <ul>
-                    <li>Quis magni dolorem facilis temporibus ratione asperiores!</li>
-                    <li>Quis magni dolorem facilis temporibus ratione asperiores!</li>
-                    <li>Quis magni dolorem facilis temporibus ratione asperiores!</li>
-                    <li>Quis magni dolorem facilis temporibus ratione asperiores!</li>
+                    <?php for ($i = 1; $i <= 4; $i++): ?>
+                      <?php if (!empty($product["bulletpoint$i"])): ?>
+                        <li><?= htmlspecialchars($product["bulletpoint$i"]) ?></li> 
+                      <?php endif; ?>
+                    <?php endfor; ?>
                 </ul>
             </div>
-            <p class="bullets__end">
-                Dieser elegante Ring aus 925er Silber mit Goldbeschichtung kombiniert zeitlose Eleganz mit modernem Stil.
-                Ideal für besondere Anlässe oder als edles Geschenk. Erhältlich in verschiedenen Größen.
-            </p>
+            <?php if (!empty($product["description2"])): ?>
+                <p class="bullets__end"><?= htmlspecialchars($product["description2"]) ?></p>
+            <?php endif; ?>
         </div>
         
       </div>

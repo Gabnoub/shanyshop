@@ -20,7 +20,7 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Shany Shop</title>
-    <script src="../JS/script.js" defer></script>
+    <script src="../JS/script.js?v=<?php echo time(); ?>" defer></script>
 </head>
 <body>
 <!----========================================== first Section - promo/NAV/Caroussel ============================================---->

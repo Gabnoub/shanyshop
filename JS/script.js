@@ -73,7 +73,7 @@ document.querySelectorAll("#minus").forEach(input => {
       let qtySel = qty.innerHTML;
       let qtyNum = parseInt(qtySel);
       qtyNum--;
-      
+
       qty.innerHTML = qtyNum.toString();
       if (qty.innerHTML === "0") {
           selectItem.remove();
@@ -110,6 +110,6 @@ document.querySelectorAll(".tn__image").forEach(input => {
     event.target.classList.add("active");
     const tnImageSrc = event.target.src;
     const extratSrc = tnImageSrc.split("images/");
-    document.querySelector(".main__prImage").src = "images/" + extratSrc[1];
+    document.querySelector(".main__prImage").src = "admin/images/" + extratSrc[1];
     });
   });

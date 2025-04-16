@@ -14,6 +14,8 @@ $bulletpoint2 = $_SESSION['add-data']['bulletpoint2'] ?? null;
 $bulletpoint3 = $_SESSION['add-data']['bulletpoint3'] ?? null;
 $bulletpoint4 = $_SESSION['add-data']['bulletpoint4'] ?? null;
 $description2 = $_SESSION['add-data']['description2'] ?? null;
+$price = $_SESSION['add-data']['price'] ?? null;
+$discount = $_SESSION['add-data']['discount'] ?? null;
 // delete session data
 unset($_SESSION['add-data']);
 ?>
@@ -72,6 +74,10 @@ unset($_SESSION['add-data']);
                 <label for="thumbnail">Add Image 4</label>
                 <input type="file" id="prImg4" name="image4">
             </div>
+            <label>Prix en Fcfa:</label>
+            <input type="number" step="1" name="price" value="<?= $price ?>" placeholder="Prix">
+            <label>Rabais en Fcfa:</label>
+            <input type="number" step="1" name="discount" value="<?= $discount ?>" placeholder="Rabais">
             <button type="submit" name="add_submit" class="sub__btn">Add Product</button>
         </form>
     </div>

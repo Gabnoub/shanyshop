@@ -19,6 +19,8 @@ if (isset($_POST['add_submit'])) {
     $image2 = $_FILES['image2'];
     $image3 = $_FILES['image3'];
     $image4 = $_FILES['image4'];
+    $price = filter_var($_POST['price'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $discount = filter_var($_POST['discount'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     // validate input
     if ($category === 'null') {
         $_SESSION['add'] = "category required"; 
@@ -30,7 +32,17 @@ if (isset($_POST['add_submit'])) {
         $_SESSION['add'] = "description is required";
     } elseif (!$image1['name']) {
         $_SESSION['add'] = "first image is required";
+    } elseif (!$price) {
+        $_SESSION['add'] = "price is required";
     } else {
+        // Finaler Preis berechnen
+        if (isset($discount)) {
+            $final_price = $price - $discount;
+        } else {
+            $final_price = $price;
+        }
+        $final_price = max($final_price, 0); // keine negativen Preise!
+        
         // work on images
         $time = time(); // make each image name unique using timestamp
         $images = [$image1, $image2, $image3, $image4];
@@ -83,7 +95,7 @@ if (isset($_POST['add_submit'])) {
     die();
    } else {
     // insert new product into products table
-    $insert_product_query = "INSERT INTO products (category, en_stock, title, material, color, size, description1, bulletpoint1, bulletpoint2, bulletpoint3, bulletpoint4, description2, image1, image2, image3, image4) VALUES ('$category','$en_stock','$title','$material','$color','$size','$description1','$bulletpoint1','$bulletpoint2','$bulletpoint3','$bulletpoint4','$description2','$images_name[0]','$images_name[1]','$images_name[2]','$images_name[3]')";
+    $insert_product_query = "INSERT INTO products (category, en_stock, title, material, color, size, description1, bulletpoint1, bulletpoint2, bulletpoint3, bulletpoint4, description2, image1, image2, image3, image4, price, discount, final_price) VALUES ('$category','$en_stock','$title','$material','$color','$size','$description1','$bulletpoint1','$bulletpoint2','$bulletpoint3','$bulletpoint4','$description2','$images_name[0]','$images_name[1]','$images_name[2]','$images_name[3]','$price','$discount','$final_price')";
     $insert_product_result = mysqli_query($connection, $insert_product_query);
     if (!mysqli_errno($connection)) {
         // redirect to add product page with success message

@@ -7,7 +7,7 @@ Require 'config/database.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/style.css?v=<?php echo time(); ?>">
     <!--  Iconscout CDN-->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <!--  Google Fonts CDN-->
@@ -15,7 +15,7 @@ Require 'config/database.php';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Shany Shop</title>
-    <script src="JS/script.js" defer></script>
+    <script src="JS/script.js?v=<?php echo time(); ?>" defer></script>
 </head>
 <body>
 <!----========================================== first Section - promo/NAV/Caroussel ============================================---->
@@ -29,10 +29,10 @@ Require 'config/database.php';
               SHANY
       </a>
       <ul class="nav__links">
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php" class="nav__link">Colliers</a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php" class="nav__link">Boucles d'oreilles</a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php" class="nav__link">Bracelets</a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php" class="nav__link">Accessoires</a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=2" class="nav__link">Colliers</a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=1" class="nav__link">Boucles d'oreilles</a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=0" class="nav__link">Bracelets</a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=3" class="nav__link">Accessoires</a></li>
       </ul>
       <button id="menu__icon">☰</button>
       <div class="open__cart">

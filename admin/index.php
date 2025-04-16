@@ -2,7 +2,7 @@
 Include 'partials/header.php';
 
 // Abfrage
-$fetch_products_query = "SELECT id, title, category, en_stock, image1 FROM products";
+$fetch_products_query = "SELECT id, title, category, en_stock, image1, price, final_price FROM products";
 $fetch_products_result = mysqli_query($connection, $fetch_products_query);
 
 
@@ -13,7 +13,7 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
 <section class="dashboard">
     <div class="adBtn">
         <button class="ap"><a href="addproduct.php">Ajouter un produit</a></button>
-        
+
         <?php if (!empty($_SESSION['add-success'])): ?>
             <div class="alert success">
                 <h3>
@@ -41,6 +41,8 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
                     <th>Titre</th>
                     <th>Categorie</th>
                     <th>En stock</th>
+                    <th>Prix</th>
+                    <th>Prix final</th>
                     <th>Modifier</th>
                     <th>Supprimer</th>
                 </tr>
@@ -55,6 +57,8 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
                     </td>
                     <td><?= $shany_categories[htmlspecialchars($row['category'])] ?></td>
                     <td><?= $shany_en_stock[htmlspecialchars($row['en_stock'])] ?></td>
+                    <td><?= $row['price'] ?></td>
+                    <td><?= $row['final_price'] ?></td>
                     <td>
                     <a href="edit-product.php?id=<?= $row['id'] ?>">
                         <button style="background-color:blue; color:white; cursor:pointer; padding:0.5rem 1rem; border-radius:0.3rem;">Modifier</button>

@@ -15,6 +15,8 @@ if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
     $bulletpoint3 = $_POST['bulletpoint3'];
     $bulletpoint4 = $_POST['bulletpoint4'];
     $description2 = $_POST['description2'];
+    $price = $_POST['price'];
+    $discount = $_POST['discount'];
 
     // Validierung
     // if ($category === 'null')  {
@@ -38,12 +40,19 @@ if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
         $_SESSION['edit'] = "title required";
     } elseif (!$description1) {
         $_SESSION['edit'] = "description is required";
+    } elseif (!$price) {
+        $_SESSION['edit'] = "price is required";
     } else {
     
-
+    // Finaler Preis berechnen
+    if (isset($discount)) {
+        $final_price = $price - $discount;
+    } else {
+        $final_price = $price;
+    }
+    $final_price = max($final_price, 0); // keine negativen Preise!
     
-
-
+    
     // Wenn neue Datei hochgeladen wurde
     $image1 = $_FILES['image1'];
     $image2 = $_FILES['image2'];
@@ -71,7 +80,6 @@ if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
                     unlink(__DIR__ . '\\images\\' . $cur_images[$i]);
                 }
                 $cur_images[$i] = $new_image_names[$i] ?? $cur_images[$i];
-                // $cur_images[$i]['name'] = $new_image_names[$i];
             }
         }
     }
@@ -80,17 +88,18 @@ if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
     $sql = "UPDATE products SET
     category = ?, en_stock = ?, title = ?, material = ?, color = ?, size = ?,
     description1 = ?, bulletpoint1 = ?, bulletpoint2 = ?, bulletpoint3 = ?, bulletpoint4 = ?, description2 = ?,
-    image1 = ?, image2 = ?, image3 = ?, image4 = ?
+    image1 = ?, image2 = ?, image3 = ?, image4 = ?, price = ?, discount = ?, final_price = ?
     WHERE id = ?";
 
     $stmt = $connection->prepare($sql);
-    $stmt->bind_param("iissssssssssssssi",
+    $stmt->bind_param("iissssssssssssssiiii",
     $category, $en_stock, $title, $material, $color, $size,
     $description1, $bulletpoint1, $bulletpoint2, $bulletpoint3, $bulletpoint4, $description2,
     $cur_images[0], 
     $cur_images[1], 
     $cur_images[2], 
     $cur_images[3], 
+    $price, $discount, $final_price,
     $id
     );
 

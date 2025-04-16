@@ -5,7 +5,7 @@ include 'partials/header.php';
 $id = $_GET['id'] ?? null;
 
 if (!$id) {
-  echo "Produkt-ID fehlt!";
+  echo "Product-ID is missed!";
   exit;
 }
 
@@ -17,7 +17,7 @@ $stmt->execute();
 $product = $stmt->get_result()->fetch_assoc();
 
 if (!$product) {
-  echo "Produkt nicht gefunden!";
+  echo "Product not found!";
   exit;
 }
 ?>
@@ -98,7 +98,10 @@ if (!$product) {
                 <input type="file" name="image4" id="image4">
                 <input type="hidden" name="current_image4" value="<?= $product['image4'] ?>">
             </div>
-
+            <label>Prix en Fcfa:</label>
+            <input type="number" step="1" name="price" value="<?= htmlspecialchars($product['price']) ?>">
+            <label>Rabais en Fcfa:</label>
+            <input type="number" step="1" name="discount" value="<?= htmlspecialchars($product['discount']) ?>">
             <button type="submit" name="edit_submit" class="sub__btn">Edit Product</button>
         </form>
     </div>
