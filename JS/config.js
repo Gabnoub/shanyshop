@@ -1,0 +1,1 @@
+let __Categories = ["Bracelets", "Boucles d’oreille", "Colliers", "Autres"];
