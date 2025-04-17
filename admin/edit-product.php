@@ -47,7 +47,7 @@ if (!$product) {
                     <option value=0 <?= $product['category'] === 0 ? 'selected' : '' ?>>Bracelets</option>
                     <option value=1 <?= $product['category'] === 1 ? 'selected' : '' ?>>Boucles</option>
                     <option value=2 <?= $product['category'] === 2 ? 'selected' : '' ?>>Colliers</option>
-                    <option value=3 <?= $product['category'] === 3 ? 'selected' : '' ?>>Autres</option>
+                    <option value=3 <?= $product['category'] === 3 ? 'selected' : '' ?>>Accessoires</option>
                 </select>
 
             </div>

@@ -28,8 +28,9 @@ exit;
 
 ?>
 <!----========================================== Category Section =================================================---->
+<section>
     <div class="home__category">
-        <p>Accueil/<strong><?= $shany_categories[$id] ?></strong></p>
+            <p>Accueil/<strong><?= $shany_categories[$id] ?></strong></p>
     </div>    
     <div class="category__description">
         <h2><?= $shany_categories[$id] ?></h2>
@@ -42,7 +43,7 @@ exit;
                 <p class="cat__pr__title"><?= htmlspecialchars($row['title']) ?></p>
                 <!-- <p class="cat__pr__price"><?= htmlspecialchars($row['final_price']) ?> CFA</p> -->
                 <?php if ($row['price'] !== $row['final_price']): ?>
-                <p class="cat__pr__price"><del><?= number_format($row['price'], 0, ',', '.') ?></del>  <strong><?= number_format($row['final_price'], 0, ',', '.') ?> CFA</strong></p>
+                <p class="cat__pr__price"><del style="text-decoration: line-through;"><?= number_format($row['price'], 0, ',', '.') ?></del>  <strong><?= number_format($row['final_price'], 0, ',', '.') ?> CFA</strong></p>
                 <?php else: ?>
                 <p class="cat__pr__price"><strong><?= $row['price'] ?> CFA</strong></p>
                 <?php endif; ?>

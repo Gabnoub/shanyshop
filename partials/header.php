@@ -37,14 +37,14 @@ Require 'config/database.php';
       <button id="menu__icon">☰</button>
       <div class="open__cart">
           <button class="active" id="cart__icon"><i class="uil uil-shopping-bag"></i></button>
-          <button ID="cart__qty">0</button>
+          <button ID="cart__qty"></button>
       </div>
       <div ID="cartCont" class="cart__container">
           <button id="close__icon">✖</button>
           <div class="cit">
               <div ID="cp-items" class="cart__product-items">
                   <!-- <div class="cart__product-item" data-id="1">
-                      <a class="cart__pr_link" href="<?= "ROOT_URL" ?>product.php"><img src="images/1.jpg"></a>
+                      <a class="cart__pr_link" href="product.php"><img src="images/1.jpg"></a>
                       <div class="cart__right">
                           <div class="cart_description">
                               <p class="cart__pr__title"><strong>Collier en argent</strong></p>
@@ -57,8 +57,9 @@ Require 'config/database.php';
                           </div>
                       </div>
                   </div> -->
-                  <button id="commander">Commander via <i class="uil uil-whatsapp"></i> Whatsapp</button>
+                  
               </div>
+              <button id="commander">Commander via <i class="uil uil-whatsapp"></i> Whatsapp</button>
           </div>
       </div>
   </nav>

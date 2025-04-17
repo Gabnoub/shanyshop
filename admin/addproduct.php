@@ -42,7 +42,7 @@ unset($_SESSION['add-data']);
                     <option value=0 <?= $category === 0 ? 'selected' : '' ?>>Bracelets</option>
                     <option value=1 <?= $category === 1 ? 'selected' : '' ?>>Boucles</option>
                     <option value=2 <?= $category === 2 ? 'selected' : '' ?>>Colliers</option>
-                    <option value=3 <?= $category === 3 ? 'selected' : '' ?>>Autres</option>
+                    <option value=3 <?= $category === 3 ? 'selected' : '' ?>>Accessoires</option>
                 </select>
 
             </div>

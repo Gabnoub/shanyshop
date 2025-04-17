@@ -23,7 +23,8 @@ if (!$product) {
 <div class="product__container">
     
     <!-- Produktdetails -->
-    <div class="product-section">
+    <div class="product-section product-card" data-id="<?= $id ?>" data-title="<?= htmlspecialchars($product["title"]) ?>" data-price="<?= htmlspecialchars($product["final_price"]) ?>" data-image="<?= 'admin/images/' . htmlspecialchars($product['image1']) ?>"
+    >
       <div class="product-image">
         <!-- <img class="main__prImage" src="images/1.jpg"> -->
         <?php if (!empty($product["image1"])): ?>
@@ -45,10 +46,10 @@ if (!$product) {
             <?php endif; ?>
             <!-- <h4>5.000 Fcfa</h4> -->
             <?php if ($product['price'] !== $product['final_price']): ?>
-              <p><del><?= $product['price'] ?> CFA</del></p>
-              <p><strong><?= $product['final_price'] ?> CFA</strong></p>
+              <p style="text-decoration: line-through;"><del><?= number_format($product['price'], 0, ',', '.') ?> CFA</del></p>
+              <p><strong><?= number_format($product['final_price'], 0, ',', '.') ?> CFA</strong></p>
             <?php else: ?>
-              <p><strong><?= $product['price'] ?> CFA</strong></p>
+              <p><strong><?= number_format($product['price'], 0, ',', '.') ?> CFA</strong></p>
             <?php endif; ?>
 
             <!-- <?php if (!empty($product["final_price"])): ?>
@@ -72,7 +73,10 @@ if (!$product) {
                 
             </ul>
         </div>
-        <button class="ajout">Ajouter au panier</button>
+        
+        <button class="add-to-cart-btn">Ajouter au panier</button>
+
+
         <div class="bullets">
             <?php if (!empty($product["description1"])): ?>
                 <p class="bullets__start"><?= htmlspecialchars($product["description1"]) ?></p>

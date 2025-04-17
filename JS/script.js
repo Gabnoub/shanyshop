@@ -53,6 +53,7 @@ icon.addEventListener("click", function() {
     icon.style.color = "black";
     cQty.style.background = "white";
     cQty.style.color = "black";
+    localStorage.setItem("cartOpen", "true"); // ✅ Zustand speichern
 })
 
 close.addEventListener("click", function() {
@@ -61,44 +62,129 @@ close.addEventListener("click", function() {
     icon.style.color = iconColorValue;
     cQty.style.background = cQtyBackValue;
     cQty.style.color = cQtyColorValue;
+    localStorage.setItem("cartOpen", "false"); // ✅ Zustand zurücksetzen
 })
-// =======================================  Quantity Button for product items  ==========================================//
+// =======================================  Add to cart button was clicked  ==========================================//
+// Laden beim Seitenstart
+document.addEventListener("DOMContentLoaded", function () {
+    updateCartCount();
 
+    // Alle Add-Buttons aktivieren
+    document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+      btn.addEventListener("click", function () {
+        const product = btn.closest(".product-card");
+        const id = product.dataset.id;
+        const title = product.dataset.title;
+        const price = parseInt(product.dataset.price);
+        const image = product.dataset.image;
 
-document.querySelectorAll("#minus").forEach(input => {
-    input.addEventListener("click", function (event) {
-      const item = event.target.closest(".cart__product-item");
-      const qty = event.target.nextElementSibling;
-      const selectItem = event.target.closest(".cart__product-item");
-      let qtySel = qty.innerHTML;
-      let qtyNum = parseInt(qtySel);
-      qtyNum--;
-
-      qty.innerHTML = qtyNum.toString();
-      if (qty.innerHTML === "0") {
-          selectItem.remove();
-          const cpIt = document.querySelectorAll(".cart__product-item");
-          let cpItemsNum = cpIt.length;
-          cQty.innerHTML = cpItemsNum.toString();
-      }
+        addToCart({ id, title, price, image });
+      });
     });
+
+
+    // ✅ Check if cart should be open
+    if (localStorage.getItem("cartOpen") === "true") {
+      cart.style.transform = `translateX(0%)`;
+      opCart.style.zIndex = "25";
+      icon.style.color = "black";
+      cQty.style.background = "white";
+      cQty.style.color = "black";
+    }
   });
 
-document.querySelectorAll("#plus").forEach(input => {
-    input.addEventListener("click", function (event) {
-      const item = event.target.closest(".cart__product-item");
-      const qty = event.target.previousElementSibling;
-      const selectItem = event.target.closest(".cart__product-item");
-      let qtySel = qty.innerHTML;
-      let qtyNum = parseInt(qtySel);
-      qtyNum++;
-      qty.innerHTML = qtyNum.toString();
-      let cpItemsNum = cpIt.children.length;
-cQty.innerHTML = cpItemsNum.toString();
-      if (qty.innerHTML === "0") {
-          selectItem.style.display = "none";
+  function addToCart(product) {
+    if (!product.id) {
+        console.warn("Product-ID invalid.", product);
+        return;
       }
-    });
+    let cart = JSON.parse(localStorage.getItem("cart")) || {};
+    if (cart[product.id]) {
+      cart[product.id].qty += 1;
+    } else {
+      cart[product.id] = { ...product, qty: 1 };
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    location.reload();
+  }
+
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || {};
+    const totalItems = Object.values(cart).reduce((acc, p) => acc + p.qty, 0);
+    document.getElementById("cart__qty").textContent = totalItems;
+  }
+//   localStorage.removeItem("cart");
+// =======================================  Cart page  ==========================================//
+
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const cart = JSON.parse(localStorage.getItem("cart")) || {};
+    const container = document.getElementById("cp-items");
+
+    if (Object.keys(cart).length === 0) {
+        document.getElementById("cp-items").innerHTML += "<p>Ton panier est vide.</p>";
+    } else {
+      let html = "";
+      for (let key in cart) {
+        const p = cart[key];
+        html += `
+            <div class="cart__product-item" data-id="${p.id}">
+            <a class="cart__pr_link" href="product.php?id=${p.id}"><img src="${p.image}"></a>
+            <div class="cart__right">
+                <div class="cart_description">
+                    <p class="cart__pr__title"><strong>${p.title}</strong></p>
+                    <p class="cart__pr__price">${p.price} CFA</p>
+                </div>
+                <div class="quantity">
+
+                    <button class="qty-minus" data-id="${p.id}">-</button>
+                    <button class="qty-display" data-id="${p.id}">${p.qty}</button>
+                    <button class="qty-plus" data-id="${p.id}">+</button>
+                </div>
+                <button class="cart_delete" onclick="removeItem('${p.id}')">🗑</button>
+            </div>
+            </div>
+        `;
+      }
+      container.innerHTML += html;
+    }
+  });
+
+  function removeItem(id) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || {};
+    delete cart[id];
+    localStorage.setItem("cart", JSON.stringify(cart));
+    location.reload();
+  }
+
+
+
+
+// =======================================  Quantity Logic for cart product items  ==========================================//
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("qty-plus") || e.target.classList.contains("qty-minus")) {
+    const id = e.target.dataset.id;
+    let cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+    if (!cart[id]) return;
+
+    if (e.target.classList.contains("qty-plus")) {
+      cart[id].qty += 1;
+    } else {
+      cart[id].qty -= 1;
+      if (cart[id].qty <= 0) {
+        delete cart[id];
+      }
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    location.reload();
+     // oder updateCartHTML(); wenn du dynamisch arbeitest
+  }
 });
 
 // =======================================  Charge selected thumbnail as first pic in product page  ==========================================//

@@ -207,6 +207,8 @@ a.nav__link:hover::after {
     /* background-color: #00c476; */
     position: absolute;
     top: 0;
+    display: flex;
+    flex-direction: column;
 }
 #cart__icon{
     background-color: transparent;
@@ -229,7 +231,7 @@ a.nav__link:hover::after {
     align-items: center;
     justify-content: center;
     font-size: 0.8rem;
-    transition: transform 400ms ease-out;
+    transition: transform 1ms ease-out;
     padding: 0;
     margin: 0;
     transform: translatex(100%);
@@ -270,12 +272,12 @@ a.nav__link:hover::after {
     flex-direction: column;
     justify-content: space-between;
     padding-left: 0.3rem;
-    
+
 }
 .quantity{
     display: flex;
     padding-bottom: 0.2rem;
-    
+
 }
 .quantity button{
     font-size: medium;
@@ -288,9 +290,13 @@ a.nav__link:hover::after {
     flex-direction: column;
     width: 150px;
     color: var(--color-black);
-   
-
 }
+.cart_delete{
+    font-size: medium;
+    width: 2rem;
+    background-color: #aeaeb9;
+}
+
 .cart__product-item img{
     width: 100px;
     height: 100px;
@@ -309,6 +315,8 @@ a.nav__link:hover::after {
     text-align: center;
     place-content: center;
     color: var(--color-white);
+    align-self: center;
+    justify-self: center;
 }
 
 #commander .uil-whatsapp{
@@ -729,27 +737,28 @@ footer{
     cursor: pointer;
 }
 /*=====================================================================================================================
-==================================== Products Page ===================================================================
+==================================== Category Page ===================================================================
 ===============*/
 /*======== home category ==========*/
 .home__category{
-    height: 50px;
+    /* height: 50px; */
     /* background-color: #1e1e66; */
-   display: flex;
-    align-items: center;
-
-}
-.home__category p{
+    /* display: flex; */
+    position: fixed;
+    left: 2rem;
+    padding-top: 1rem;
+    /* align-items: center; */
     font-weight: 400;
-    padding-left: 8.8rem;
     color: var(--color-black);
+
 }
 /*========  category Description ==========*/
 .category__description{
-    height: 80px;
+    /* height: 80px; */
     text-align: center;
     /* background-color: var(--color-green); */
     place-content: center;
+    padding-top: 2rem;
 }
 .category__description h2{
     /* font-size: 2rem; */
@@ -762,7 +771,7 @@ footer{
     color: var(--color-black);
 }
 
-/*========  Products Listing ==========*/
+/*========  category Listing ==========*/
 
 .cat__pr__title{
     margin-top: 10px;
@@ -802,7 +811,7 @@ footer{
     }
     .section{
         margin-bottom: 0rem;
-        /* height: auto; */
+        height: fit-content;
     }
     h2{
         font-size: 1.6rem;
@@ -1017,17 +1026,14 @@ footer{
         font-weight: 500;
     }
     /*======== new products style ==========*/
-    /* section:nth-child(1){
-        height: auto;
-        position: relative;
-    } */
     .home__category{
         display: none;
-        height: auto;
-        position: relative;
     }
     .category__description p{
-        display: none;
+        padding: 0.5rem 1rem;
+    }
+    .category__description h2{
+        padding: 0.5rem 1rem;
     }
     .cat__pr__title{
         margin-top: 5px;
@@ -1036,13 +1042,9 @@ footer{
     }
     .cat__pr__price{
         color: var(--color-black);
-        padding: 0px;
     }
     /* product categorie page */
     .cat__products-container{
-        /* display: flex; */
-        /* flex-direction: column; */
-        /* flex-wrap: wrap; */
         display: grid;
         grid-template-columns: auto auto;
         gap: 0.6rem;
@@ -1050,10 +1052,6 @@ footer{
         /* padding: 0rem 2rem; */
         align-items: center;
         justify-content: center;
-        position: absolute;
-        top: 10rem;
-        left: 50%;
-        transform: translate(-50%, 0);
         place-content: center;
         }
     .cat__product-item{
@@ -1220,7 +1218,7 @@ footer{
     width: 500px;
     margin: 2rem 2rem;
     /* border: solid 2px red; */
-    
+
 }
 .form__control{
     display: flex;
@@ -1292,7 +1290,7 @@ footer{
     background-color: rgb(202, 92, 41);
     border-radius: 0.3rem;
     height: 2rem;
-   
+
 }
 .login form{
     display: flex;
@@ -1315,7 +1313,7 @@ footer{
     background-color: rgb(202, 92, 41);
     border-radius: 0.3rem;
     height: 2rem;
-   
+
 }
 .signup form{
     display: flex;
@@ -1397,16 +1395,15 @@ table, th, td {
     font-weight: bold;
     font-family: sans-serif;
 }
-  
+
 .alert.error {
     background-color: #f8d7da;
     color: #c5091c;
     border: 1px solid #f5c6cb;
 }
-  
+
 .alert.success {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
 }
-  
