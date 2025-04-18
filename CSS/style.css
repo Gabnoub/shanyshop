@@ -201,9 +201,16 @@ a.nav__link:hover::after {
     width: 1.3rem;
     aspect-ratio: 1/1;
 }
+.open__cart .insideCC{
+    z-index: 25;
+    color: black;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
 .cit{
     width: 50px;
-    height: 5px;
+    /* height: 5px; */
     /* background-color: #00c476; */
     position: absolute;
     top: 0;
@@ -222,8 +229,10 @@ a.nav__link:hover::after {
     top: 0;
     right: 0;
     width: 300px;
-    height: 80vh;
-    overflow-y: scroll;
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
+    overflow-x: hidden;
     background-color: var(--color-white);
     /* color: var(--color-white); */
     display: flex;
@@ -231,7 +240,7 @@ a.nav__link:hover::after {
     align-items: center;
     justify-content: center;
     font-size: 0.8rem;
-    transition: transform 1ms ease-out;
+    transition: transform 0ms ease-out;
     padding: 0;
     margin: 0;
     transform: translatex(100%);
@@ -239,21 +248,23 @@ a.nav__link:hover::after {
     z-index: 15;
     /* opacity: 0.4; */
     /* text-align: center; */
+    border-left: solid 1px grey;
 }
 
 #close__icon{
     position: absolute;
-    top: 0;
-    right: 16rem;
+    top: 0.5rem;
+    right: 15.5rem;
     margin-top: 0.3rem;
     margin-right: 0.3rem;
     align-self: self-end;
     font-size: small;
-    font-weight: 600;
-    background-color: var(--color-gray-200);
+    font-weight: 400;
+    background-color: rgb(168, 163, 163);
     color: var(--color-black);
-    padding: 0 0.2rem;
+    padding: 0.2rem 0.4rem;
     border: solid 2px black;
+    cursor: pointer;
 }
 .cart__product-items{
     display: flex;
@@ -303,20 +314,23 @@ a.nav__link:hover::after {
     /* border-radius: 10px; */
     overflow: hidden;
     object-fit: cover;
+    border: solid 1px grey;
 }
-#commander{
+
+#whatsappCheckout{
     background-color: green;
     padding: 0.5rem 1rem;
     width: 250px;
     font-size: medium;
     font-weight: 540;
     margin-top: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     text-align: center;
     place-content: center;
     color: var(--color-white);
     align-self: center;
     justify-self: center;
+    cursor: pointer;
 }
 
 #commander .uil-whatsapp{
@@ -744,13 +758,12 @@ footer{
     /* height: 50px; */
     /* background-color: #1e1e66; */
     /* display: flex; */
-    position: fixed;
-    left: 2rem;
+    /* position: fixed; */
+    padding-left: 2rem;
     padding-top: 1rem;
     /* align-items: center; */
     font-weight: 400;
     color: var(--color-black);
-
 }
 /*========  category Description ==========*/
 .category__description{
@@ -759,6 +772,11 @@ footer{
     /* background-color: var(--color-green); */
     place-content: center;
     padding-top: 2rem;
+}
+.num__products{
+    display: flex;
+    align-self: flex-start;
+    padding-left: 2rem;
 }
 .category__description h2{
     /* font-size: 2rem; */

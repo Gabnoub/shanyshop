@@ -44,25 +44,38 @@ const iconColorValue = getComputedStyle(icon).getPropertyValue('--color-white');
 const cQtyColorValue = getComputedStyle(cQty).color;
 const cQtyBackValue = getComputedStyle(cQty).backgroundColor;
 const cpIt = document.querySelectorAll(".cart__product-item");
+
+
+const originalPos = opCart.getBoundingClientRect();
+
+// optional speichern
+const savedPosition = {
+  top: originalPos.top + window.scrollY,
+  right: originalPos.right + window.scrollX
+};
+
+
 let cpItemsNum = cpIt.length;
 cQty.innerHTML = cpItemsNum.toString();
 
 icon.addEventListener("click", function() {
     cart.style.transform =  `translateX(${0}%)`;
-    opCart.style.zIndex = "25";
+    // opCart.style.zIndex = "25";
     icon.style.color = "black";
     cQty.style.background = "white";
     cQty.style.color = "black";
-    localStorage.setItem("cartOpen", "true"); // ✅ Zustand speichern
+    document.body.style.overflow = "hidden"; // 🔒 Scroll sperren
+    sessionStorage.setItem("cartOpen", "true"); // ✅ Zustand speichern
 })
 
 close.addEventListener("click", function() {
     cart.style.transform =  `translateX(${100}%)`;
-    opCart.style.zIndex = "10";
+    // opCart.style.zIndex = "10";
     icon.style.color = iconColorValue;
     cQty.style.background = cQtyBackValue;
-    cQty.style.color = cQtyColorValue;
-    localStorage.setItem("cartOpen", "false"); // ✅ Zustand zurücksetzen
+    cQty.style.color = cQtyColorValue;  
+    document.body.style.overflow = "auto"; // ✅ Scroll erlauben
+    sessionStorage.setItem("cartOpen", "false"); // ✅ Zustand zurücksetzen
 })
 // =======================================  Add to cart button was clicked  ==========================================//
 // Laden beim Seitenstart
@@ -84,12 +97,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ✅ Check if cart should be open
-    if (localStorage.getItem("cartOpen") === "true") {
+    if (sessionStorage.getItem("cartOpen") === "true") {
       cart.style.transform = `translateX(0%)`;
       opCart.style.zIndex = "25";
       icon.style.color = "black";
       cQty.style.background = "white";
       cQty.style.color = "black";
+      opCart.style.zIndex = "10";
+      document.body.style.overflow = "hidden"; // 🔒 Scroll sperren
     }
   });
 
@@ -114,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cart = JSON.parse(localStorage.getItem("cart")) || {};
     const totalItems = Object.values(cart).reduce((acc, p) => acc + p.qty, 0);
     document.getElementById("cart__qty").textContent = totalItems;
+
   }
 //   localStorage.removeItem("cart");
 // =======================================  Cart page  ==========================================//
@@ -124,13 +140,27 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("DOMContentLoaded", function () {
     const cart = JSON.parse(localStorage.getItem("cart")) || {};
     const container = document.getElementById("cp-items");
+    const cartContainer = document.getElementById("cartCont");
+    const totalDiv = document.getElementById("cart__total");
+    const checkoutBtn = document.getElementById("whatsappCheckout");
+    let message = "Nouvelle commande:\n";
+    let totalPrice = 0;
+    // 💰 Gesamtpreis berechnen
+    let total_price = Object.values(cart).reduce((sum, p) => sum + p.qty * p.price, 0);
+    let summe = total_price.toLocaleString('de-DE') + " CFA";
 
+    // product item generator + check out button 
     if (Object.keys(cart).length === 0) {
-        document.getElementById("cp-items").innerHTML += "<p>Ton panier est vide.</p>";
+      let html = `<div style="color:black; width:200px; text-align:center; font-size:medium"><strong>Ton panier est vide.</strong></div>`;
+      container.innerHTML = html;
     } else {
       let html = "";
       for (let key in cart) {
         const p = cart[key];
+        const lineTotal = p.qty * p.price;
+        totalPrice += lineTotal;
+        message += `• ${p.title} x${p.qty} = ${lineTotal.toLocaleString('de-DE')} CFA\n`;
+
         html += `
             <div class="cart__product-item" data-id="${p.id}">
             <a class="cart__pr_link" href="product.php?id=${p.id}"><img src="${p.image}"></a>
@@ -141,19 +171,45 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <div class="quantity">
 
-                    <button class="qty-minus" data-id="${p.id}">-</button>
-                    <button class="qty-display" data-id="${p.id}">${p.qty}</button>
-                    <button class="qty-plus" data-id="${p.id}">+</button>
+                    <button style="cursor:pointer;" class="qty-minus" data-id="${p.id}">-</button>
+                    <button style="cursor:pointer;" class="qty-display" data-id="${p.id}">${p.qty}</button>
+                    <button style="cursor:pointer;" class="qty-plus" data-id="${p.id}">+</button>
                 </div>
                 <button class="cart_delete" onclick="removeItem('${p.id}')">🗑</button>
             </div>
             </div>
         `;
       }
-      container.innerHTML += html;
-    }
-  });
 
+      html += `
+              <div id="total" style="margin-top:1rem; color:black; width:250px; text-align:center; font-size:small; font-weight:600;">Total de votre commande</div>
+              <p id="cart__total" style="color:black; width:200px; text-align:center; font-size:small"></p>
+              <button id="whatsappCheckout">Commander via <i class="uil uil-whatsapp"></i> Whatsapp</button>
+      `;
+      
+      container.innerHTML += html;
+      const totalEl = document.getElementById("cart__total");
+      if (totalEl) {
+        totalEl.textContent = summe;
+      } else {
+        console.warn("Element #cart__total not found");
+      }
+    }
+    document.getElementById("whatsappCheckout").addEventListener("click", function () {
+      whatsappCheckout(message, summe);
+    });
+  });
+  
+// Whatsapp Checkout
+function whatsappCheckout(mes, sum) {
+  const phone = "+491779321676"; // deine WhatsApp-Nummer
+  const final_message = `${mes}\n• Total: ${sum}`;
+  console.log(final_message);
+  const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(final_message)}`;
+  window.open(whatsappUrl, "_blank");
+}
+
+// Cart remove item function
   function removeItem(id) {
     let cart = JSON.parse(localStorage.getItem("cart")) || {};
     delete cart[id];

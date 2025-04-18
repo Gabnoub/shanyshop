@@ -42,7 +42,7 @@ Require 'config/database.php';
       <div ID="cartCont" class="cart__container">
           <button id="close__icon">✖</button>
           <div class="cit">
-              <div ID="cp-items" class="cart__product-items">
+            <div ID="cp-items" class="cart__product-items">
                   <!-- <div class="cart__product-item" data-id="1">
                       <a class="cart__pr_link" href="product.php"><img src="images/1.jpg"></a>
                       <div class="cart__right">
@@ -59,7 +59,8 @@ Require 'config/database.php';
                   </div> -->
                   
               </div>
-              <button id="commander">Commander via <i class="uil uil-whatsapp"></i> Whatsapp</button>
+              
+              <!-- <button id="commander">Commander via <i class="uil uil-whatsapp"></i> Whatsapp</button> -->
           </div>
       </div>
   </nav>

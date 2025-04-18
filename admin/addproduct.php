@@ -36,7 +36,7 @@ unset($_SESSION['add-data']);
 
         <form action="add-product-logic.php" enctype="multipart/form-data" method="POST">
             <div>
-                <label for="category">Choisir la categorie:</label>
+                <label class="required-label" for="category">Choisir la categorie:</label>
                 <select name="category">
                     <option value=null <?= $category === null ? 'selected' : '' ?>></option>
                     <option value=0 <?= $category === 0 ? 'selected' : '' ?>>Bracelets</option>
@@ -47,26 +47,26 @@ unset($_SESSION['add-data']);
 
             </div>
             <div>
-                <label for="en_stock">En stock:</label>
+                <label class="required-label" for="en_stock">En stock:</label>
                 <select name="en_stock" value="<?= $en_stock ?>">
                     <option value=null <?= $en_stock === null ? 'selected' : '' ?>></option>
                     <option value=0 <?= $en_stock === 0 ? 'selected' : '' ?>>Oui</option>
                     <option value=1 <?= $en_stock === 1 ? 'selected' : '' ?>>Non</option>
                 </select>
             </div>
-            <input type="text" name="title" value="<?= $title ?>" placeholder="Titre">
-            <input type="text" name="material" value="<?= $material ?>" placeholder="Material">
-            <input type="text" name="color" value="<?= $color ?>" placeholder="Couleur">
-            <input type="text" name="size" value="<?= $size ?>" placeholder="Taille">
-            <input type="text" name="description1" value="<?= $description1 ?>" placeholder="Description 1">
-            <input  type="text" name="bulletpoint1" value="<?= $bulletpoint1 ?>" placeholder="Bulletpoint 1">
-            <input  type="text" name="bulletpoint2" value="<?= $bulletpoint2 ?>" placeholder="Bulletpoint 2">
-            <input type="text" name="bulletpoint3" value="<?= $bulletpoint3 ?>" placeholder="Bulletpoint 3">
-            <input type="text" name="bulletpoint4" value="<?= $bulletpoint4 ?>" placeholder="Bulletpoint 4">
-            <input type="text" name="description2" value="<?= $description2 ?>" placeholder="Description 2">
+            <input type="text" name="title" value="<?= htmlspecialchars($title) ?>" placeholder="Titre *" required>
+            <input type="text" name="material" value="<?= htmlspecialchars($material) ?>" placeholder="Material">
+            <input type="text" name="color" value="<?= htmlspecialchars($color) ?>" placeholder="Couleur">
+            <input type="text" name="size" value="<?= htmlspecialchars($size) ?>" placeholder="Taille">
+            <input type="text" name="description1" value="<?= htmlspecialchars($description1) ?>" placeholder="Description 1 *" required>
+            <input  type="text" name="bulletpoint1" value="<?= htmlspecialchars($bulletpoint1) ?>" placeholder="Bulletpoint 1">
+            <input  type="text" name="bulletpoint2" value="<?= htmlspecialchars($bulletpoint2) ?>" placeholder="Bulletpoint 2">
+            <input type="text" name="bulletpoint3" value="<?= htmlspecialchars($bulletpoint3) ?>" placeholder="Bulletpoint 3">
+            <input type="text" name="bulletpoint4" value="<?= htmlspecialchars($bulletpoint4) ?>" placeholder="Bulletpoint 4">
+            <input type="text" name="description2" value="<?= htmlspecialchars($description2) ?>" placeholder="Description 2">
             <div class="form__control">
                 <label for="thumbnail">Add Image 1</label>
-                <input type="file" id="prImg1" name="image1">
+                <input type="file" id="prImg1" name="image1" required>
                 <label for="thumbnail">Add Image 2</label>
                 <input type="file" id="prImg2" name="image2">
                 <label for="thumbnail">Add Image 3</label>
@@ -75,9 +75,9 @@ unset($_SESSION['add-data']);
                 <input type="file" id="prImg4" name="image4">
             </div>
             <label>Prix en Fcfa:</label>
-            <input type="number" step="1" name="price" value="<?= $price ?>" placeholder="Prix">
+            <input type="number" step="1" name="price" value="<?= htmlspecialchars($price) ?>" placeholder="Prix" required>
             <label>Rabais en Fcfa:</label>
-            <input type="number" step="1" name="discount" value="<?= $discount ?>" placeholder="Rabais">
+            <input type="number" step="1" name="discount" value="<?= htmlspecialchars($discount) ?>" placeholder="Rabais">
             <button type="submit" name="add_submit" class="sub__btn">Add Product</button>
         </form>
     </div>

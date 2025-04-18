@@ -104,19 +104,19 @@ if (!$product) {
         <h2>Ähnliche Produkte</h2>
         <div class="related-grid">
           <div class="related-item">
-            <img src="https://via.placeholder.com/200x150" alt="Produkt 1">
+            <img src="" alt="Produkt 1">
             <p>Silberring mit Perle</p>
           </div>
           <div class="related-item">
-            <img src="https://via.placeholder.com/200x150" alt="Produkt 2">
+            <img src="" alt="Produkt 2">
             <p>Roségold Armband</p>
           </div>
           <div class="related-item">
-            <img src="https://via.placeholder.com/200x150" alt="Produkt 3">
+            <img src="" alt="Produkt 3">
             <p>Kettenanhänger Herz</p>
           </div>
           <div class="related-item">
-            <img src="https://via.placeholder.com/200x150" alt="Produkt 3">
+            <img src="" alt="Produkt 3">
             <p>Bracelets Elois Herz</p>
           </div>
         </div>
@@ -133,4 +133,3 @@ if (!$product) {
 <?php
 Include 'partials/footer.php';
 ?>
-

@@ -21,10 +21,17 @@ $id = intval($_GET['id']);
 // Abfrage
 $fetch_products_query = "SELECT * FROM products WHERE category = $id";
 $fetch_products_result = mysqli_query($connection, $fetch_products_query);
+
 if (!$fetch_products_result) {
     echo "No product available.";
 exit;
 }
+// SQL zum Zählen
+$stmt = $connection->prepare("SELECT COUNT(*) as count FROM products WHERE category = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$count = $result->fetch_assoc()['count'];
 
 ?>
 <!----========================================== Category Section =================================================---->
@@ -35,6 +42,11 @@ exit;
     <div class="category__description">
         <h2><?= $shany_categories[$id] ?></h2>
         <p><?= $shany_categories_description[$id] ?></p>
+        <?php if ($count === 1): ?>
+            <p class="num__products"><?= $count ?> produit</p>
+        <?php else: ?>
+            <p class="num__products"><?= $count ?> produits</p>    
+        <?php endif; ?>
     </div>
     <div class="cat__products-container">
         <?php while($row = $fetch_products_result->fetch_assoc()): ?>
