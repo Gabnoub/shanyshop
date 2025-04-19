@@ -21,7 +21,7 @@ Require 'config/database.php';
 <!----========================================== first Section - promo/NAV/Caroussel ============================================---->
 <section class="first">
   <!------------------------------------------------------------ Promotion text -------------------------------------------------------------->
-  <div class="promotion">Livraison offerte à Yaoundé dès 25.000 FCFA d'achat ✨</div>
+  <div class="promotion"><?= $shany_promo ?></div>
   <!------------------------------------------------------------ Navigation Bar --------------------------------------------------------- -->
   <nav class="nav__container">
       <a class="nav__logo" href="<?= ROOT_URL ?>index.php">
@@ -29,18 +29,22 @@ Require 'config/database.php';
               SHANY
       </a>
       <ul class="nav__links">
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=2" class="nav__link">Colliers</a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=1" class="nav__link">Boucles d'oreilles</a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=0" class="nav__link">Bracelets</a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=3" class="nav__link">Accessoires</a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=2" class="nav__link"><?= $shany_categories[2] ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=1" class="nav__link"><?= $shany_categories[1] ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=0" class="nav__link"><?= $shany_categories[0] ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=3" class="nav__link"><?= $shany_categories[3] ?></a></li>
       </ul>
       <button id="menu__icon">☰</button>
-      <div class="open__cart">
+      <div id="opcart" class="open__cart">
           <button class="active" id="cart__icon"><i class="uil uil-shopping-bag"></i></button>
           <button ID="cart__qty"></button>
       </div>
       <div ID="cartCont" class="cart__container">
           <button id="close__icon">✖</button>
+          <div id="new__cart">
+            <button id="cart__icon_new"><i class="uil uil-shopping-bag"></i></button>
+            <button ID="cart__qty_new"></button>
+          </div>
           <div class="cit">
             <div ID="cp-items" class="cart__product-items">
                   <!-- <div class="cart__product-item" data-id="1">
@@ -61,6 +65,7 @@ Require 'config/database.php';
               </div>
               
               <!-- <button id="commander">Commander via <i class="uil uil-whatsapp"></i> Whatsapp</button> -->
+            
           </div>
       </div>
   </nav>

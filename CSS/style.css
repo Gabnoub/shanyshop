@@ -201,17 +201,9 @@ a.nav__link:hover::after {
     width: 1.3rem;
     aspect-ratio: 1/1;
 }
-.open__cart .insideCC{
-    z-index: 25;
-    color: black;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-}
+
 .cit{
     width: 50px;
-    /* height: 5px; */
-    /* background-color: #00c476; */
     position: absolute;
     top: 0;
     display: flex;
@@ -222,7 +214,37 @@ a.nav__link:hover::after {
     font-size: x-large;
     color: var(--color-white);
     cursor: pointer;
-
+}
+#new__cart{
+    position: relative;
+    display: flex;
+    gap: 0.2rem;
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    /* background-color: #bd552c; */
+}
+#cart__qty_new{
+    padding: 0.3rem 0;
+    position: absolute;
+    top: -0.7rem;
+    right: -0.7rem;
+    background-color: white;
+    color: black;
+    font-size: small;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    /* border: solid 1px black; */
+    width: 1.3rem;
+    aspect-ratio: 1/1;
+}
+#cart__icon_new{
+    background-color: transparent;
+    font-size: x-large;
+    color: black;
+    cursor: pointer;
 }
 .cart__container{
     position: absolute;
@@ -240,7 +262,7 @@ a.nav__link:hover::after {
     align-items: center;
     justify-content: center;
     font-size: 0.8rem;
-    transition: transform 0ms ease-out;
+    transition: transform 100ms ease-out;
     padding: 0;
     margin: 0;
     transform: translatex(100%);
@@ -305,7 +327,7 @@ a.nav__link:hover::after {
 .cart_delete{
     font-size: medium;
     width: 2rem;
-    background-color: #aeaeb9;
+    cursor: pointer;
 }
 
 .cart__product-item img{
@@ -315,6 +337,13 @@ a.nav__link:hover::after {
     overflow: hidden;
     object-fit: cover;
     border: solid 1px grey;
+}
+.cart_bottom{
+    position: sticky;
+    bottom: 0rem;
+    background-color: var(--color-white);
+    border: solid 1px gray;
+    padding: 0 3rem;
 }
 
 #whatsappCheckout{
@@ -340,7 +369,9 @@ a.nav__link:hover::after {
     background-color: var(--color-green);
     color: var(--color-black);
 }
-
+.uil-trash-alt{
+    background-color: transparent;
+}
 /*=====================================================================================================================
 ==================================== Caroussel STYLES ===================================================================
 ===============*/
@@ -665,16 +696,18 @@ a.nav__link:hover::after {
 }
 .product-item{
     color: black;
-    width: 300px;
-    height: 300px;
+    /* width: 300px;
+    height: 300px; */
     /* border: solid 2px red; */
     place-content: center;
-    background-color: var(--color-white);
+    /* background-color: var(--color-white); */
     border-radius: 0.3rem;
 }
 .product-item img{
     overflow: hidden;
     object-fit: cover;
+    width: 300px;
+    height: 300px;
 
 }
 .open__product {
@@ -686,6 +719,7 @@ a.nav__link:hover::after {
     margin-top: 2rem;
     background: var(--color-primary);
     padding: 1rem 2rem;
+    cursor: pointer;
 }
 .open__product:hover{
     background-color: var(--color-green);
@@ -913,11 +947,7 @@ footer{
     .nav__links li:nth-child(4){
         animation-delay: 300ms;
     }
-    /* .open__cart{
-        position: absolute;
-        right: 16rem;
-        top: 0.8rem;
-    } */
+    
     /*======== new products style ==========*/
 
     /*======== Lifestyle style ==========*/
@@ -976,7 +1006,7 @@ footer{
         color: var(--color-black);
         /* border: solid 2px red; */
     }
-    .product-item{
+    .product-item img{
         width: 150px;
         height: 150px;
     }
@@ -1362,19 +1392,26 @@ table, th, td {
     align-items: center;
     justify-content: space-between;
 }
-.adBtn .ap {
+.adBtn button {
     background: #6161c3;
     padding: 0.5rem 1rem;
     border-radius: 0.3rem;
     cursor: pointer;
     font-weight: 650;
 }
-.adBtn .lo {
-    background: #388037;
+.logout {
+    background: rgb(180, 53, 53);
     padding: 0.5rem 1rem;
     border-radius: 0.3rem;
     cursor: pointer;
     font-weight: 650;
+    position: absolute;
+    top: 3.2rem;
+    right: 2.5rem;
+    z-index: 15;
+}
+.logout:hover {
+    background: rgb(55, 194, 55);
 }
 .dashboard .gestion{
     display: flex;

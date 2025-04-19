@@ -53,7 +53,6 @@ $count = $result->fetch_assoc()['count'];
             <div class="cat__product-item">
                 <a class="cat__pr_link" href="product.php?id=<?= $row['id'] ?>"><img src="admin/images/<?= htmlspecialchars($row['image1']) ?>"></a>
                 <p class="cat__pr__title"><?= htmlspecialchars($row['title']) ?></p>
-                <!-- <p class="cat__pr__price"><?= htmlspecialchars($row['final_price']) ?> CFA</p> -->
                 <?php if ($row['price'] !== $row['final_price']): ?>
                 <p class="cat__pr__price"><del style="text-decoration: line-through;"><?= number_format($row['price'], 0, ',', '.') ?></del>  <strong><?= number_format($row['final_price'], 0, ',', '.') ?> CFA</strong></p>
                 <?php else: ?>

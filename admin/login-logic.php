@@ -23,6 +23,7 @@ if (isset($_POST['submit'])) {
             if (password_verify($password, $db_password)) {
                 // log In
                 $_SESSION['user_id'] = $user_record['id'];
+                $_SESSION['username'] = $user_record['username'];
                 header('location: index.php');
                 die();
             } else {

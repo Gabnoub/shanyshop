@@ -74,7 +74,7 @@ if (!$product) {
             </ul>
         </div>
         
-        <button class="add-to-cart-btn">Ajouter au panier</button>
+        <button style="cursor:pointer;" class="add-to-cart-btn">Ajouter au panier</button>
 
 
         <div class="bullets">

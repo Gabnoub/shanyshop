@@ -12,7 +12,7 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
 <!----==========================================  Dashboard Section ============================================---->
 <section class="dashboard">
     <div class="adBtn">
-        <button class="ap"><a href="addproduct.php">Ajouter un produit</a></button>
+        <button><a href="addproduct.php">Ajouter un produit</a></button>
 
         <?php if (!empty($_SESSION['add-success'])): ?>
             <div class="alert success">
@@ -29,8 +29,6 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
         <?php elseif (isset($_SESSION['delete-error'])): ?>
         <div class="alert error"><?= $_SESSION['delete-error']; unset($_SESSION['delete-error']); ?></div>
         <?php endif; ?>
-
-        <button class="lo"><a href="logout.php">Logout</a></button>
     </div>
     <div class="gestion">
         <h2>Gestion des produits</h2>

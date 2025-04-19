@@ -31,12 +31,7 @@ progressBars[index].classList.add("active");
 // Sélection de la barre de progression
 const pb = document.getElementById("pbc");
 const productContainer = document.getElementById("productContainer");
-const products = [
-    ["<img src=\"images/1.jpg\">", "Collier perlé", "Bracelet élégant","Bague en or"],
-    ["Montre classique", "Montre connectée", "Montre en cuir","Bague en or"],
-    ["Sac à main", "Lunettes de soleil", "Ceinture en cuir","Bague en or"],
-    ["Nouveaux bijoux", "Nouvelles montres", "Nouveaux accessoires","Bague en or"]
-];
+let currentCategoryIndex = 0; // Standard: Colliers
 
 currentCat(0);
 function currentCat(index) {
@@ -49,11 +44,34 @@ function currentCat(index) {
     pb.style.transform = `translateX(${index_cat * breite}px)`;
 
     // Mettre à jour le contenu des produits
-    if (products.length <= 8) {
-        
-    }
-    productContainer.innerHTML = products[index]
-                .map(item => `<div class="product-item">${item}</div>`)
-                .join("");
+    currentCategoryIndex = index;
+
+    const itemsHTML = products[index].map(item => {
+        const hasDiscount = item.price !== item.finalprice;
+      
+        return `
+          <div class="product-item">
+            <a href="product.php?id=${item.id}">
+              <img src="${item.image}" class="pr_image">
+            </a>
+            <p class="pr__title">${item.title}</p>
+            <p class="pr__price">
+              ${hasDiscount
+                ? `<del style="text-decoration: line-through;">${item.price}</del> <strong>${item.finalprice} CFA</strong>`
+                : `<strong>${item.finalprice} CFA</strong>`
+              }
+            </p>
+          </div>
+        `;
+      }).join("");
+
+  productContainer.innerHTML = itemsHTML;
     
 }
+
+
+// Wenn Explorer geklickt wird, zur Kategorie-Seite springen
+document.getElementById("exploreBtn").addEventListener("click", function () {
+    // Weiterleitung zur passenden Seite (z. B. category.php?id=...)
+    window.location.href = `category.php?id=${currentCategoryIndex}`;
+  });
