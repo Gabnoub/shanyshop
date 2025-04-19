@@ -41,7 +41,7 @@ if (!$product) {
             <input type="hidden" name="id" value="<?= $product['id'] ?>">
 
             <div>
-                <label for="category">Choisir la categorie:</label>
+                <label for="category">Choisir la categorie *</label>
                 <select name="category">
                     <option value=null <?= $product['category'] === null ?>></option>
                     <option value=0 <?= $product['category'] === 0 ? 'selected' : '' ?>>Bracelets</option>
@@ -52,25 +52,35 @@ if (!$product) {
 
             </div>
             <div>
-                <label for="en_stock">En stock:</label>
+                <label for="en_stock">En stock *</label>
                 <select name="en_stock">
                     <option value=null <?= $product['en_stock'] === null ? 'selected' : '' ?>></option>
                     <option value=0 <?= $product['en_stock'] === 0 ? 'selected' : '' ?>>Oui</option>
                     <option value=1 <?= $product['en_stock'] === 1 ? 'selected' : '' ?>>Non</option>
                 </select>
             </div>
+            <label class="required-label" for="title">Titre *</label>
             <input type="text" name="title" value="<?= htmlspecialchars($product['title']) ?>">
+            <label for="material">Material</label>
             <input type="text" name="material" value="<?= htmlspecialchars($product['material']) ?>">
+            <label for="color">Couleur</label>
             <input type="text" name="color" value="<?= htmlspecialchars($product['color']) ?>">
+            <label for="size">Taille</label>
             <input type="text" name="size" value="<?= htmlspecialchars($product['size']) ?>">
+            <label class="required-label" for="description1">Description 1 *</label>
             <input type="text" name="description1" value="<?= htmlspecialchars($product['description1']) ?>">
+            <label for="bulletpoint1">bulletpoint 1</label>
             <input type="text" name="bulletpoint1" value="<?= htmlspecialchars($product['bulletpoint1']) ?>">
+            <label for="bulletpoint2">bulletpoint 2</label>
             <input type="text" name="bulletpoint2" value="<?= htmlspecialchars($product['bulletpoint2']) ?>">
+            <label for="bulletpoint3">bulletpoint 3</label>
             <input type="text" name="bulletpoint3" value="<?= htmlspecialchars($product['bulletpoint3']) ?>">
+            <label for="bulletpoint4">bulletpoint 4</label>
             <input type="text" name="bulletpoint4" value="<?= htmlspecialchars($product['bulletpoint4']) ?>">
+            <label class="required-label" for="description2">Description 2</label>
             <input type="text" name="description2" value="<?= htmlspecialchars($product['description2']) ?>">
             <div class="form__control">    
-                <label for="image1">Update Image 1</label>
+                <label for="image1">Update Image 1 *</label>
                 <?php if (!empty($product['image1'])): ?>
                     <img src="images/<?= htmlspecialchars($product['image1']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
                 <?php endif; ?>
@@ -98,9 +108,9 @@ if (!$product) {
                 <input type="file" name="image4" id="image4">
                 <input type="hidden" name="current_image4" value="<?= $product['image4'] ?>">
             </div>
-            <label>Prix en Fcfa:</label>
+            <label>Prix en Fcfa *</label>
             <input type="number" step="1" name="price" value="<?= htmlspecialchars($product['price']) ?>">
-            <label>Rabais en Fcfa:</label>
+            <label>Rabais en Fcfa</label>
             <input type="number" step="1" name="discount" value="<?= htmlspecialchars($product['discount']) ?>">
             <button type="submit" name="edit_submit" class="sub__btn">Edit Product</button>
         </form>

@@ -2,10 +2,23 @@
 Include 'partials/header.php';
 
 // Abfrage
-$fetch_products_query = "SELECT id, title, category, en_stock, image1, price, final_price FROM products";
+// $fetch_products_query = "SELECT id, title, category, en_stock, image1, price, final_price FROM products";
+// $fetch_products_result = mysqli_query($connection, $fetch_products_query);
+
+
+$where = [];
+if (isset($_GET['category']) && $_GET['category'] !== '') {
+    $cat = (int) $_GET['category'];
+    $where[] = "category = $cat";
+}
+if (isset($_GET['en_stock']) && $_GET['en_stock'] !== '') {
+    $stock = (int) $_GET['en_stock'];
+    $where[] = "en_stock = $stock";
+}
+$where_sql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+$fetch_products_query = "SELECT id, title, category, en_stock, image1, price, final_price FROM products $where_sql";
 $fetch_products_result = mysqli_query($connection, $fetch_products_query);
-
-
 
 
 ?>
@@ -30,6 +43,24 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
         <div class="alert error"><?= $_SESSION['delete-error']; unset($_SESSION['delete-error']); ?></div>
         <?php endif; ?>
     </div>
+    <form class="filter_admin" method="GET" style="margin-bottom: 1rem;">
+        <select name="category">
+            <option value="">Toutes les catégories</option>
+            <option value="0">Bracelets</option>
+            <option value="1">Boucles</option>
+            <option value="2">Colliers</option>
+            <option value="3">Autres</option>
+        </select>
+
+        <select name="en_stock">
+            <option value="">Stock: Tous</option>
+            <option value="0">En stock</option>
+            <option value="1">Rupture</option>
+        </select>
+
+        <button type="submit">Filtrer</button>
+    </form>
+
     <div class="gestion">
         <h2>Gestion des produits</h2>
         <table>
@@ -41,8 +72,7 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
                     <th>En stock</th>
                     <th>Prix</th>
                     <th>Prix final</th>
-                    <th>Modifier</th>
-                    <th>Supprimer</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -59,12 +89,12 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
                     <td><?= $row['final_price'] ?></td>
                     <td>
                     <a href="edit-product.php?id=<?= $row['id'] ?>">
-                        <button style="background-color:blue; color:white; cursor:pointer; padding:0.5rem 1rem; border-radius:0.3rem;">Modifier</button>
+                        <button style="background-color:rgb(170, 110, 6); color:white; cursor:pointer; padding:0.5rem 1rem; border-radius:0.3rem;">Modifier</button>
                     </a>
                     </td>
                     <td>
                     <a href="delete-product.php?id=<?= $row['id'] ?>" onclick="return confirm('Really want to delete this product?')">
-                        <button style="background-color:red; color:white; cursor:pointer; padding:0.5rem 1rem; border-radius:0.3rem;">Supprimer</button>
+                        <button style="background-color:rgb(232, 51, 51);; color:white; cursor:pointer; padding:0.5rem 1rem; border-radius:0.3rem;">Supprimer</button>
                     </a>
                     </td>
                 </tr>

@@ -17,13 +17,28 @@ if (isset($_POST['add_submit'])) {
     $description2 = filter_var($_POST['description2'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $discount = filter_var($_POST['discount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $image1 = $_FILES['image1'];
 
-    if (!$title || !$price || !$description1 || $category === 'null' || $en_stock === 'null') {
-        $_SESSION['add'] = "please fill in all required fields";
-        $_SESSION['add-data'] = $_POST;
-        header("location: addproduct.php");
-        exit;
-    }
+    // if (!$title || !$price || !$description1 || $category === 'null' || $en_stock === 'null') {
+    //     $_SESSION['add'] = "please fill in all required fields";
+    //     $_SESSION['add-data'] = $_POST;
+    //     header("location: addproduct.php");
+    //     exit;
+    // }
+    // validate input
+    if ($category === 'null') {
+        $_SESSION['add'] = "Category is required"; 
+    } elseif ($en_stock === 'null') {
+        $_SESSION['add'] = "Stock status is required";
+    } elseif (!$title) {
+        $_SESSION['add'] = "Title is required";
+    } elseif (!$description1) {
+        $_SESSION['add'] = "Description 1 is required";
+    } elseif (!$price) {
+        $_SESSION['add'] = "Price is required";
+    } elseif (!$image1['name']) {
+        $_SESSION['add'] = "Image 1 is required";
+    } else {
 
     // Finaler Preis
     $final_price = is_numeric($discount) ? $price - $discount : $price;
@@ -55,7 +70,7 @@ if (isset($_POST['add_submit'])) {
             $image_names[] = null;
         }
     }
-
+    
 
 
     // Prepared SQL
@@ -74,6 +89,7 @@ if (isset($_POST['add_submit'])) {
         $image_names[1], $image_names[2], $image_names[3], $image_names[4],
         $price, $discount, $final_price
     );
+    
 
     if ($stmt->execute()) {
         $_SESSION['add-success'] = "Product successfully added";
@@ -85,6 +101,11 @@ if (isset($_POST['add_submit'])) {
     }
 
     exit;
+    }
+    if (isset($_SESSION['add'])) {
+        header("Location: addproduct.php");
+        exit;
+    }
 }
 
 ?>

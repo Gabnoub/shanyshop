@@ -17,6 +17,12 @@ if (!$product) {
     exit;
 }
 
+// Prepare and execute a query to fetch 4 random related products from the same category (excluding the current product)
+$stmtRelated = $connection->prepare("SELECT id, title, image1, price, final_price FROM products WHERE category = ? AND id != ? ORDER BY RAND() LIMIT 4");
+$stmtRelated->bind_param("ii", $product['category'], $id);
+$stmtRelated->execute();
+$relatedProducts = $stmtRelated->get_result();
+
 
 ?>
 <!----========================================== Product Info Section ============================================---->  
@@ -100,32 +106,33 @@ if (!$product) {
 
     
     <!-- Ähnliche Produkte -->
-    <div class="related-products">
-        <h2>Ähnliche Produkte</h2>
-        <div class="related-grid">
-          <div class="related-item">
-            <img src="" alt="Produkt 1">
-            <p>Silberring mit Perle</p>
-          </div>
-          <div class="related-item">
-            <img src="" alt="Produkt 2">
-            <p>Roségold Armband</p>
-          </div>
-          <div class="related-item">
-            <img src="" alt="Produkt 3">
-            <p>Kettenanhänger Herz</p>
-          </div>
-          <div class="related-item">
-            <img src="" alt="Produkt 3">
-            <p>Bracelets Elois Herz</p>
-          </div>
+<div class="related-products">
+    <h2>Ähnliche Produkte</h2>
+    <div class="related-grid">
+      <?php while($relProduct = $relatedProducts->fetch_assoc()): ?>
+        <div class="related-item">
+          <a href="product.php?id=<?= $relProduct['id'] ?>">
+            <img src="admin/images/<?= htmlspecialchars($relProduct['image1']) ?>" alt="<?= htmlspecialchars($relProduct['title']) ?>">
+          </a>
+          <p><?= htmlspecialchars($relProduct['title']) ?></p>
+          <p>
+            <?php if ($relProduct['price'] !== $relProduct['final_price']): ?>
+              <del style="text-decoration: line-through;"><?= number_format($relProduct['price'], 0, ',', '.') ?></del>
+              <strong><?= number_format($relProduct['final_price'], 0, ',', '.') ?> CFA</strong>
+            <?php else: ?>
+              <strong><?= number_format($relProduct['price'], 0, ',', '.') ?> CFA</strong>
+            <?php endif; ?>
+          </p>
         </div>
-      </div>
+      <?php endwhile; ?>
+    </div>
+</div>
+
 
     <!-- Kommentare -->
-    <div class="comments">
+    <!-- <div class="comments">
       <h2>Avis client</h2>
-    </div>
+    </div> -->
 
 
   </div>

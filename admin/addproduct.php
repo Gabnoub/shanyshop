@@ -36,7 +36,7 @@ unset($_SESSION['add-data']);
 
         <form action="add-product-logic.php" enctype="multipart/form-data" method="POST">
             <div>
-                <label class="required-label" for="category">Choisir la categorie:</label>
+                <label class="required-label" for="category">Choisir la categorie *</label>
                 <select name="category">
                     <option value=null <?= $category === null ? 'selected' : '' ?>></option>
                     <option value=0 <?= $category === 0 ? 'selected' : '' ?>>Bracelets</option>
@@ -47,26 +47,36 @@ unset($_SESSION['add-data']);
 
             </div>
             <div>
-                <label class="required-label" for="en_stock">En stock:</label>
+                <label class="required-label" for="en_stock">En stock *</label>
                 <select name="en_stock" value="<?= $en_stock ?>">
                     <option value=null <?= $en_stock === null ? 'selected' : '' ?>></option>
                     <option value=0 <?= $en_stock === 0 ? 'selected' : '' ?>>Oui</option>
                     <option value=1 <?= $en_stock === 1 ? 'selected' : '' ?>>Non</option>
                 </select>
             </div>
-            <input type="text" name="title" value="<?= htmlspecialchars($title) ?>" placeholder="Titre *" required>
+            <label class="required-label" for="title">Titre *</label>
+            <input type="text" name="title" value="<?= htmlspecialchars($title) ?>" placeholder="Titre">
+            <label for="material">Material</label>
             <input type="text" name="material" value="<?= htmlspecialchars($material) ?>" placeholder="Material">
+            <label for="color">Couleur</label>
             <input type="text" name="color" value="<?= htmlspecialchars($color) ?>" placeholder="Couleur">
+            <label for="size">Taille</label>
             <input type="text" name="size" value="<?= htmlspecialchars($size) ?>" placeholder="Taille">
-            <input type="text" name="description1" value="<?= htmlspecialchars($description1) ?>" placeholder="Description 1 *" required>
+            <label class="required-label" for="description1">Description 1 *</label>
+            <input type="text" name="description1" value="<?= htmlspecialchars($description1) ?>" placeholder="Description 1">
+            <label for="bulletpoint1">bulletpoint 1</label>
             <input  type="text" name="bulletpoint1" value="<?= htmlspecialchars($bulletpoint1) ?>" placeholder="Bulletpoint 1">
+            <label for="bulletpoint2">bulletpoint 2</label>
             <input  type="text" name="bulletpoint2" value="<?= htmlspecialchars($bulletpoint2) ?>" placeholder="Bulletpoint 2">
+            <label for="bulletpoint3">bulletpoint 3</label>
             <input type="text" name="bulletpoint3" value="<?= htmlspecialchars($bulletpoint3) ?>" placeholder="Bulletpoint 3">
+            <label for="bulletpoint4">bulletpoint 4</label>
             <input type="text" name="bulletpoint4" value="<?= htmlspecialchars($bulletpoint4) ?>" placeholder="Bulletpoint 4">
+            <label for="description2">Description 2</label>
             <input type="text" name="description2" value="<?= htmlspecialchars($description2) ?>" placeholder="Description 2">
             <div class="form__control">
-                <label for="thumbnail">Add Image 1</label>
-                <input type="file" id="prImg1" name="image1" required>
+                <label for="thumbnail">Add Image 1 *</label>
+                <input type="file" id="prImg1" name="image1">
                 <label for="thumbnail">Add Image 2</label>
                 <input type="file" id="prImg2" name="image2">
                 <label for="thumbnail">Add Image 3</label>
@@ -74,9 +84,9 @@ unset($_SESSION['add-data']);
                 <label for="thumbnail">Add Image 4</label>
                 <input type="file" id="prImg4" name="image4">
             </div>
-            <label>Prix en Fcfa:</label>
-            <input type="number" step="1" name="price" value="<?= htmlspecialchars($price) ?>" placeholder="Prix" required>
-            <label>Rabais en Fcfa:</label>
+            <label>Prix en Fcfa *</label>
+            <input type="number" step="1" name="price" value="<?= htmlspecialchars($price) ?>" placeholder="Prix">
+            <label>Rabais en Fcfa</label>
             <input type="number" step="1" name="discount" value="<?= htmlspecialchars($discount) ?>" placeholder="Rabais">
             <button type="submit" name="add_submit" class="sub__btn">Add Product</button>
         </form>

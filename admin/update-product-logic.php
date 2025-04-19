@@ -17,6 +17,7 @@ if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
     $description2 = $_POST['description2'];
     $price = $_POST['price'];
     $discount = $_POST['discount'];
+    
 
     // validate input
     if ($category === 'null') {
