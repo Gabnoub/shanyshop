@@ -44,11 +44,11 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
             <div class="progress-bar" onclick="currentSlide(1)"></div>
             <div class="progress-bar" onclick="currentSlide(2)"></div>
         </div>
-        <a class="call__to-action" href="category.php?id=1">DÉCOUVRIR</a>
+        <a class="call__to-action" href="category.php">DÉCOUVRIR</a>
     </div>
 
 <!----==========================================  New Products Section ============================================---->
-<section class="new__products">
+<section class="new__products animation">
   <div class="np__title">
     <h2>Nos Nouveautés</h2>
   </div>
@@ -57,24 +57,26 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
       <div class="new__product-item icon_wrapper">
         <a class="pr_link" href="product.php?id=<?= $product['id'] ?>">
           <img src="admin/images/<?= htmlspecialchars($product['image1']) ?>" class="pr_image">
-        </a>
+        
         <p class="pr__title"><?= htmlspecialchars($product['title']) ?></p>
         <p class="pr__price">
           <?php if ($product['price'] !== $product['final_price']): ?>
             <del style="text-decoration: line-through;"><?= number_format($product['price'], 0, ',', '.') ?></del>
             <strong><?= number_format($product['final_price'], 0, ',', '.') ?> CFA</strong>
+            <button class="rabatt">- <?= round(100 - (($product['final_price'] * 100) / $product['price'])) ?> %</button>
           <?php else: ?>
             <strong><?= number_format($product['final_price'], 0, ',', '.') ?> CFA</strong>
           <?php endif; ?>
         </p>
+        </a>
       </div>
     <?php endwhile; ?>
   </div>
 </section>
 
 <!----========================================== Lifestyle section ============================================---->
-<section class="lifestyle">
-    <h2>Révelez votre style</h2>    
+<section class="lifestyle animation">
+    <h2>Affirmez votre élégance</h2>    
         <div class="lifestyle__images">
             <img src="images/1.jpg" alt="Lifestyle Image" class="lifestyle__image">
             <img src="images/2.jpg" alt="Lifestyle Image" class="lifestyle__image">
@@ -83,23 +85,24 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
     </div>
 </section>
 <!----========================================== Beststellers section ============================================---->
-<section class="best__sellers">
+<section class="best__sellers animation">
     <h2>Nos Best Sellers</h2>
     <div class="best__sellers-container">
     <?php while ($product = mysqli_fetch_assoc($best_products_result)): ?>
-      <div class="new__product-item icon_wrapper">
+      <div class="best__sellers-item">
         <a class="pr_link" href="product.php?id=<?= $product['id'] ?>">
           <img src="admin/images/<?= htmlspecialchars($product['image1']) ?>" class="pr_image">
-        </a>
         <p class="pr__title"><?= htmlspecialchars($product['title']) ?></p>
         <p class="pr__price">
           <?php if ($product['price'] !== $product['final_price']): ?>
             <del style="text-decoration: line-through;"><?= number_format($product['price'], 0, ',', '.') ?></del>
             <strong><?= number_format($product['final_price'], 0, ',', '.') ?> CFA</strong>
+            <button class="rabatt">- <?= round(100 - (($product['final_price'] * 100) / $product['price'])) ?> %</button>
           <?php else: ?>
             <strong><?= number_format($product['final_price'], 0, ',', '.') ?> CFA</strong>
           <?php endif; ?>
         </p>
+        </a>
       </div>
     <?php endwhile; ?>
     </div>
@@ -107,7 +110,7 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
 
 
 <!----============================================== About section ============================================----------->
-<section class="about">
+<section class="about animation">
     <div class="about__container">
         <img class="about__image"  src="images/about.webp">
         <article class="about__text">
@@ -120,7 +123,7 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
     </div>
 </section>
 <!----========================================== Categories section ============================================---->
-<section class="caterogies">
+<section class="caterogies animation">
     <h2>Découvrez notre collection exclusive</h2>
     <!-- <p><strong>Révélez votre style unique</strong></p> -->
     <div class="categories__container">

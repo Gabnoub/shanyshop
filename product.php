@@ -54,6 +54,7 @@ $relatedProducts = $stmtRelated->get_result();
             <?php if ($product['price'] !== $product['final_price']): ?>
               <p style="text-decoration: line-through;"><del><?= number_format($product['price'], 0, ',', '.') ?> CFA</del></p>
               <p><strong><?= number_format($product['final_price'], 0, ',', '.') ?> CFA</strong></p>
+              <p class="rabatt_pp"><strong>- <?= round(100 - (($product['final_price'] * 100) / $product['price'])) ?> %</strong></p>
             <?php else: ?>
               <p><strong><?= number_format($product['price'], 0, ',', '.') ?> CFA</strong></p>
             <?php endif; ?>
@@ -68,13 +69,13 @@ $relatedProducts = $stmtRelated->get_result();
                 <li>Couleur:</li>
                 <li>Taille:</li> -->
                 <?php if (!empty($product["material"])): ?>
-                <li><?= htmlspecialchars($product["material"]) ?></li>
+                <li><strong>Matière: </strong><?= htmlspecialchars($product["material"]) ?></li>
                 <?php endif; ?>
                 <?php if (!empty($product["color"])): ?>
-                <li><?= htmlspecialchars($product["color"]) ?></li>
+                <li><strong>Couleur: </strong><?= htmlspecialchars($product["color"]) ?></li>
                 <?php endif; ?>
                 <?php if (!empty($product["size"])): ?>
-                <li><?= htmlspecialchars($product["size"]) ?></li>
+                <li><strong>Taille: </strong><?= htmlspecialchars($product["size"]) ?></li>
                 <?php endif; ?>
                 
             </ul>
@@ -104,25 +105,26 @@ $relatedProducts = $stmtRelated->get_result();
       </div>
     </div>
 
-    
+</div>
     <!-- Ähnliche Produkte -->
 <div class="related-products">
     <h2>Ähnliche Produkte</h2>
     <div class="related-grid">
       <?php while($relProduct = $relatedProducts->fetch_assoc()): ?>
         <div class="related-item">
-          <a href="product.php?id=<?= $relProduct['id'] ?>">
+          <a class="related_p" href="product.php?id=<?= $relProduct['id'] ?>">
             <img src="admin/images/<?= htmlspecialchars($relProduct['image1']) ?>" alt="<?= htmlspecialchars($relProduct['title']) ?>">
-          </a>
           <p><?= htmlspecialchars($relProduct['title']) ?></p>
-          <p>
+          <p >
             <?php if ($relProduct['price'] !== $relProduct['final_price']): ?>
               <del style="text-decoration: line-through;"><?= number_format($relProduct['price'], 0, ',', '.') ?></del>
               <strong><?= number_format($relProduct['final_price'], 0, ',', '.') ?> CFA</strong>
+              <button class="rabatt">- <?= round(100 - (($relProduct['final_price'] * 100) / $relProduct['price'])) ?> %</button>
             <?php else: ?>
               <strong><?= number_format($relProduct['price'], 0, ',', '.') ?> CFA</strong>
             <?php endif; ?>
           </p>
+          </a>
         </div>
       <?php endwhile; ?>
     </div>
@@ -135,7 +137,7 @@ $relatedProducts = $stmtRelated->get_result();
     </div> -->
 
 
-  </div>
+  
 <!----========================================== END ============================================---->
 <?php
 Include 'partials/footer.php';

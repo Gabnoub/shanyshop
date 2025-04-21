@@ -48,19 +48,25 @@ function currentCat(index) {
 
     const itemsHTML = products[index].map(item => {
         const hasDiscount = item.price !== item.finalprice;
+        const discount = hasDiscount 
+        ? Math.round(100 - (item.finalprice * 100) / item.price)
+        : 0;
       
         return `
           <div class="product-item">
             <a href="product.php?id=${item.id}">
               <img src="${item.image}" class="pr_image">
-            </a>
+            
             <p class="pr__title">${item.title}</p>
             <p class="pr__price">
               ${hasDiscount
-                ? `<del style="text-decoration: line-through;">${item.price}</del> <strong>${item.finalprice} CFA</strong>`
-                : `<strong>${item.finalprice} CFA</strong>`
+                ? `<del style="text-decoration: line-through;">${item.price}</del> 
+             <strong>${item.finalprice} CFA</strong>
+             <button class="rabatt">-${discount} %</button>` 
+          : `<strong>${item.finalprice} CFA</strong>`
               }
             </p>
+            </a>
           </div>
         `;
       }).join("");

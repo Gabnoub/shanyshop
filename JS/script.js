@@ -216,4 +216,19 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     })
   );
+
+  const lifestyleImages = document.querySelectorAll(".animation");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  }, {
+    threshold: 0.3 // wenn 20% sichtbar, animieren
+  });
+
+  lifestyleImages.forEach(image => observer.observe(image));
+
 });
