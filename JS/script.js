@@ -234,3 +234,9 @@ document.addEventListener("DOMContentLoaded", () => {
   lifestyleImages.forEach(image => observer.observe(image));
 
 });
+//------------------------------------------------ show comment form -----------------------------------------------------------------------------//
+const review = document.getElementById("review");
+const form = document.querySelector(".rating-form");
+review.addEventListener("click", () => {
+  form.classList.toggle("active");
+});
