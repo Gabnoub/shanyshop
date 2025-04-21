@@ -7,7 +7,7 @@ Require 'config/database.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CSS/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?= ROOT_URL ?>css/style.css?v=<?php echo time(); ?>">
     <!--  Iconscout CDN-->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <!--  Google Fonts CDN-->
@@ -15,7 +15,7 @@ Require 'config/database.php';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Shany Shop</title>
-    <script src="JS/script.js?v=<?php echo time(); ?>" defer></script>
+    <script src="<?= ROOT_URL ?>JS/script.js?v=<?php echo time(); ?>" defer></script>
 </head>
 <body>
 <!----========================================== first Section - promo/NAV/Caroussel ============================================---->
@@ -24,15 +24,15 @@ Require 'config/database.php';
   <div class="promotion"><?= $shany_promo ?></div>
   <!------------------------------------------------------------ Navigation Bar --------------------------------------------------------- -->
   <nav class="nav__container">
-      <a class="nav__logo" href="<?= ROOT_URL ?>index.php">
+      <a class="nav__logo" href="<?= ROOT_URL ?>">
           <!-- <img src="assets/logo.png" alt="Logo Shany Shop" class="nav__logo--img"> -->
               SHANY
       </a>
       <ul class="nav__links">
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=2" class="nav__link"><?= $shany_categories[2] ?></a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=1" class="nav__link"><?= $shany_categories[1] ?></a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=0" class="nav__link"><?= $shany_categories[0] ?></a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>category.php?id=3" class="nav__link"><?= $shany_categories[3] ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[2] ?>" class="nav__link"><?= $shany_categories[2] ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[1] ?>" class="nav__link"><?= $shany_categories[1] ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[0] ?>" class="nav__link"><?= $shany_categories[0] ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[3] ?>" class="nav__link"><?= $shany_categories[3] ?></a></li>
       </ul>
       <button id="menu__icon">☰</button>
       <div id="opcart" class="open__cart">

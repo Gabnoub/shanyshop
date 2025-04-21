@@ -1,6 +1,5 @@
 <?php
 Include 'partials/header.php';
-
 $sort = $_GET['sort'] ?? 'default';
 
 switch ($sort) {
@@ -20,43 +19,49 @@ switch ($sort) {
         $orderBy = 'id DESC';
 }
 
-// Kategorie-Filter prüfen
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = intval($_GET['id']);
-    $where = "WHERE category = $id";
+$catslug = $_GET['cat_slug'] ?? null;
 
-} else {
-    $where = "";
-    // $category_name = "Tous les produits";
-    // $category_description = "Découvrez notre sélection complète de bijoux élégants.";
-}
-
-// Produkte holen
-$fetch_products_query = "SELECT * FROM products $where ORDER BY $orderBy";
-$fetch_products_result = mysqli_query($connection, $fetch_products_query);
-
-// Anzahl zählen
-if (!empty($id)) {
-    $stmt = $connection->prepare("SELECT COUNT(*) as count FROM products WHERE category = ?");
-    $stmt->bind_param("i", $id);
+if ($catslug && $catslug !== "tous-les-produits"){
+    // set $id
+    if ($catslug === "Bracelets") {
+        $id = 0;
+    } elseif ($catslug === "Boucles-d-oreilles") {
+        $id = 1;
+    } elseif ($catslug === "Colliers") {
+        $id = 2;
+    } elseif ($catslug === "Accessoires") {
+        $id = 3;
+    }
+    // Verwende vorbereitete Anweisung für die Produktauswahl
+    $stmt = $connection->prepare("SELECT * FROM products WHERE cat_slug = ? ORDER BY $orderBy");
+    $stmt->bind_param("s", $catslug);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $count = $result->fetch_assoc()['count'];
+    $fetch_products_result = $stmt->get_result();
+
+    // Verwende vorbereitete Anweisung für die Zählung
+    $count_stmt = $connection->prepare("SELECT COUNT(*) as count FROM products WHERE cat_slug = ?");
+    $count_stmt->bind_param("s", $catslug);
+    $count_stmt->execute();
+    $count_result = $count_stmt->get_result();
+    $count = $count_result->fetch_assoc()['count'];
 } else {
+    // Wenn kein cat_slug angegeben ist
+    $fetch_products_query = "SELECT * FROM products ORDER BY $orderBy";
+    $fetch_products_result = mysqli_query($connection, $fetch_products_query);
     $count = mysqli_num_rows($fetch_products_result);
 }
 
-
 if (!$fetch_products_result) {
     echo "No product available.";
-exit;
+    exit;
 }
+
 
 ?>
 <!----========================================== Category Section =================================================---->
 <section>
     <div class="home__category">
-            <a style="color:black" href="index.php">Accueil/</a>
+            <a style="color:black" href="<?= ROOT_URL ?>">Accueil</a>
             <strong><?=  $shany_categories[$id ?? 4] ?></strong>
     </div>    
     <div class="category__description">
@@ -86,7 +91,7 @@ exit;
     <div class="cat__products-container">
         <?php while($row = $fetch_products_result->fetch_assoc()): ?>
             <div class="cat__product-item">
-                <a class="cat__pr_link" href="product.php?id=<?= $row['id'] ?>"><img src="admin/images/<?= htmlspecialchars($row['image1']) ?>">
+                <a class="cat__pr_link" href="<?= ROOT_URL ?>products/<?= $row['slug'] ?>"><img src="<?= ROOT_URL ?>admin/images/<?= htmlspecialchars($row['image1']) ?>">
                 <p class="cat__pr__title"><?= htmlspecialchars($row['title']) ?></p>
                 <?php if ($row['price'] !== $row['final_price']): ?>
                 <p class="cat__pr__price"><del style="text-decoration: line-through;"><?= number_format($row['price'], 0, ',', '.') ?></del>  <strong><?= number_format($row['final_price'], 0, ',', '.') ?> CFA</strong></p>

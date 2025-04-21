@@ -12,6 +12,7 @@ $best_products_result = mysqli_query($connection, $best_products_query);
 // fetch first 4 products for all categories
 $cat_products = [];
 
+
 for ($cat = 0; $cat < 4; $cat++) {
   $stmt = $connection->prepare("SELECT * FROM products WHERE category = ? ORDER BY id ASC LIMIT 4");
   $stmt->bind_param("i", $cat);
@@ -22,6 +23,8 @@ for ($cat = 0; $cat < 4; $cat++) {
   while ($row = $result->fetch_assoc()) {
     $cat_products[$cat][] = [
       'id' => $row['id'],
+      'slug' => $row['slug'],
+      'catSlug' => $row['cat_slug'],
       'title' => $row['title'],
       'price' => number_format($row['price'], 0, ',', '.'),
       'finalprice' => number_format($row['final_price'], 0, ',', '.'),
@@ -44,7 +47,7 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
             <div class="progress-bar" onclick="currentSlide(1)"></div>
             <div class="progress-bar" onclick="currentSlide(2)"></div>
         </div>
-        <a class="call__to-action" href="category.php">DÉCOUVRIR</a>
+        <a class="call__to-action" href="<?= ROOT_URL ?>categories/tous-les-produits">DÉCOUVRIR</a>
     </div>
 
 <!----==========================================  New Products Section ============================================---->
@@ -55,7 +58,9 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
   <div class="new__products-container">
     <?php while ($product = mysqli_fetch_assoc($last_products_result)): ?>
       <div class="new__product-item icon_wrapper">
-        <a class="pr_link" href="product.php?id=<?= $product['id'] ?>">
+        <!-- <a class="pr_link" href="product.php?id=<?= $product['id'] ?>"> -->
+        <a class="pr_link" href="<?= ROOT_URL ?>products/<?= $product['slug'] ?>">
+
           <img src="admin/images/<?= htmlspecialchars($product['image1']) ?>" class="pr_image">
         
         <p class="pr__title"><?= htmlspecialchars($product['title']) ?></p>
@@ -90,7 +95,8 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
     <div class="best__sellers-container">
     <?php while ($product = mysqli_fetch_assoc($best_products_result)): ?>
       <div class="best__sellers-item">
-        <a class="pr_link" href="product.php?id=<?= $product['id'] ?>">
+        <!-- <a class="pr_link" href="product.php?id=<?= $product['id'] ?>"> -->
+        <a class="pr_link" href="<?= ROOT_URL ?>products/<?= $product['slug'] ?>">
           <img src="admin/images/<?= htmlspecialchars($product['image1']) ?>" class="pr_image">
         <p class="pr__title"><?= htmlspecialchars($product['title']) ?></p>
         <p class="pr__price">
@@ -140,4 +146,4 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
 <?php
 Include 'partials/footer.php';
 ?>
-<script src="JS/main.js?v=<?php echo time(); ?>" defer></script>
+<script src="<?= ROOT_URL ?>JS/main.js?v=<?php echo time(); ?>" defer></script>

@@ -1,25 +1,24 @@
 <?php
 Include 'partials/header.php';
+$slug = $_GET['slug'] ?? '';
 
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    echo "Product-ID invalid.";
+if ($slug) {
+    $stmt = $connection->prepare("SELECT * FROM products WHERE slug = ?");
+    $stmt->bind_param("s", $slug);
+    $stmt->execute();
+    $product = $stmt->get_result()->fetch_assoc();
+
+    if (!$product) {
+        echo "Produkt nicht gefunden.";
+        exit;
+    }
+} else {
+    echo "Kein Produkt angegeben.";
     exit;
 }
-
-$id = intval($_GET['id']);
-$stmt = $connection->prepare("SELECT * FROM products WHERE id = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$product = $stmt->get_result()->fetch_assoc();
-
-if (!$product) {
-    echo "Product not found.";
-    exit;
-}
-
 // Prepare and execute a query to fetch 4 random related products from the same category (excluding the current product)
-$stmtRelated = $connection->prepare("SELECT id, title, image1, price, final_price FROM products WHERE category = ? AND id != ? ORDER BY RAND() LIMIT 4");
-$stmtRelated->bind_param("ii", $product['category'], $id);
+$stmtRelated = $connection->prepare("SELECT id, title, image1, price, final_price, slug FROM products WHERE category = ? AND slug != ? ORDER BY RAND() LIMIT 4");
+$stmtRelated->bind_param("is", $product['category'], $slug);
 $stmtRelated->execute();
 $relatedProducts = $stmtRelated->get_result();
 
@@ -29,17 +28,16 @@ $relatedProducts = $stmtRelated->get_result();
 <div class="product__container">
     
     <!-- Produktdetails -->
-    <div class="product-section product-card" data-id="<?= $id ?>" data-title="<?= htmlspecialchars($product["title"]) ?>" data-price="<?= htmlspecialchars($product["final_price"]) ?>" data-image="<?= 'admin/images/' . htmlspecialchars($product['image1']) ?>"
-    >
+    <div class="product-section product-card" data-id="<?= htmlspecialchars($product["id"]) ?>" data-title="<?= htmlspecialchars($product["title"]) ?>" data-price="<?= htmlspecialchars($product["final_price"]) ?>" data-image="<?= ROOT_URL . 'admin/images/' . htmlspecialchars($product['image1']) ?>" data-slug="<?= ($product['slug']) ?>">
       <div class="product-image">
         <!-- <img class="main__prImage" src="images/1.jpg"> -->
         <?php if (!empty($product["image1"])): ?>
-                <img class="main__prImage" src="admin/images/<?= htmlspecialchars($product["image1"]) ?>">
+                <img class="main__prImage" src="<?= ROOT_URL . 'admin/images/' . htmlspecialchars($product['image1']) ?>">
         <?php endif; ?>
         <div class="thumbnail">
           <?php for ($i = 1; $i <= 4; $i++): ?>
             <?php if (!empty($product["image$i"])): ?>
-              <img class="tn__image" src="admin/images/<?= htmlspecialchars($product["image$i"]) ?>" style="cursor:pointer;">
+              <img class="tn__image" src="<?= ROOT_URL . 'admin/images/' . htmlspecialchars($product["image$i"]) ?>" style="cursor:pointer;">
             <?php endif; ?>
           <?php endfor; ?>
         </div>
@@ -108,12 +106,12 @@ $relatedProducts = $stmtRelated->get_result();
 </div>
     <!-- Ähnliche Produkte -->
 <div class="related-products">
-    <h2>Ähnliche Produkte</h2>
+    <h2>Vous aimerez également:</h2>
     <div class="related-grid">
       <?php while($relProduct = $relatedProducts->fetch_assoc()): ?>
         <div class="related-item">
-          <a class="related_p" href="product.php?id=<?= $relProduct['id'] ?>">
-            <img src="admin/images/<?= htmlspecialchars($relProduct['image1']) ?>" alt="<?= htmlspecialchars($relProduct['title']) ?>">
+          <a class="related_p" href="<?= ROOT_URL ?>products/<?= $relProduct['slug'] ?>">
+            <img src="<?= ROOT_URL ?>admin/images/<?= htmlspecialchars($relProduct['image1']) ?>" alt="<?= htmlspecialchars($relProduct['title']) ?>">
           <p><?= htmlspecialchars($relProduct['title']) ?></p>
           <p >
             <?php if ($relProduct['price'] !== $relProduct['final_price']): ?>

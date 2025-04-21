@@ -31,30 +31,32 @@ progressBars[index].classList.add("active");
 // Sélection de la barre de progression
 const pb = document.getElementById("pbc");
 const productContainer = document.getElementById("productContainer");
-let currentCategoryIndex = 0; // Standard: Colliers
+let currentCategory = ""; // Standard: Colliers
 
 currentCat(0);
 function currentCat(index) {
     // Déplacer la barre progressive sous le bouton sélectionné
     const test = document.querySelector('.categories__item:nth-child(1)');
     const breite = test.offsetWidth;
-
+    
     const index_cat = (index-2) % 4;
     // pb.style.transform = `translateX(${index * 100}%)`;
     pb.style.transform = `translateX(${index_cat * breite}px)`;
 
     // Mettre à jour le contenu des produits
-    currentCategoryIndex = index;
+    
 
     const itemsHTML = products[index].map(item => {
         const hasDiscount = item.price !== item.finalprice;
+        currentCategory = item.catSlug;
         const discount = hasDiscount 
         ? Math.round(100 - (item.finalprice * 100) / item.price)
         : 0;
       
         return `
           <div class="product-item">
-            <a href="product.php?id=${item.id}">
+            
+            <a class="pr_link" href="products/${item.slug}">
               <img src="${item.image}" class="pr_image">
             
             <p class="pr__title">${item.title}</p>
@@ -79,5 +81,5 @@ function currentCat(index) {
 // Wenn Explorer geklickt wird, zur Kategorie-Seite springen
 document.getElementById("exploreBtn").addEventListener("click", function () {
     // Weiterleitung zur passenden Seite (z. B. category.php?id=...)
-    window.location.href = `category.php?id=${currentCategoryIndex}`;
+    window.location.href = `categories/${currentCategory}`;
   });

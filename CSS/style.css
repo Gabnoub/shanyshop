@@ -654,7 +654,6 @@ a.nav__link:hover::after {
     object-fit: cover;
     overflow: hidden;
     border-radius: 10px;
-    border: solid 3px var(--color-primary-light);
 }
 .about__text h2{
     text-align: center;
@@ -834,6 +833,18 @@ footer{
     font-weight: 400;
     color: var(--color-black);
     display: flex;
+}
+.home__category a{
+    padding: 0.1rem 0.6rem;
+    border-right: solid 2px black;
+    background-color: var(--color-white);
+    border-radius: 10px 0 0 10px;
+}
+.home__category strong{
+    padding: 0.1rem 0.6rem;
+    border-left: solid 2px black;
+    background-color: var(--color-white);
+    border-radius: 0 10px 10px 0;
 }
 /*========  category Description ==========*/
 .category__description{

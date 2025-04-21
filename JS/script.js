@@ -59,11 +59,13 @@ document.querySelectorAll(".tn__image").forEach(input => {
     tnAll.forEach(tn => tn.classList.remove("active"));
     event.target.classList.add("active");
     const tnImageSrc = event.target.src;
-    const extratSrc = tnImageSrc.split("images/");
-    document.querySelector(".main__prImage").src = "admin/images/" + extratSrc[1];
+    document.querySelector(".main__prImage").src = tnImageSrc;
     });
   });
   // =======================================  Add to cart button was clicked  ==========================================//
+  window.addEventListener("pageshow", () => {
+    renderCart();
+  });
 // Warenkorb auslesen
 function getCart() {
   return JSON.parse(localStorage.getItem("cart")) || {};
@@ -129,14 +131,13 @@ function renderCart() {
       totalItems += p.qty;
       const lineTotal = p.qty * p.price;
       totalPrice += lineTotal;
-
       message += `• ${p.title} x${p.qty} = ${lineTotal.toLocaleString('de-DE')} CFA\n`;
 
       const el = document.createElement("div");
       el.className = "cart__product-item";
       el.innerHTML = `
          
-            <a class="cart__pr_link" href="product.php?id=${p.id}"><img src="${p.image}"></a>
+            <a class="cart__pr_link" href="${p._slug}"><img src="${p.image}"></a>
             <div class="cart__right">
                 <div class="cart_description">
                     <p class="cart__pr__title"><strong>${p.title}</strong></p>
@@ -212,7 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
         id: product.dataset.id,
         title: product.dataset.title,
         price: parseInt(product.dataset.price),
-        image: product.dataset.image
+        image: product.dataset.image,
+        _slug: product.dataset.slug
       });
     })
   );
