@@ -139,9 +139,21 @@ $ratingResult = $stmtRating->get_result()->fetch_assoc();
 $averageRating = round($ratingResult['average'], 1) ?: 0;
 $ratingCount = $ratingResult['count'];
 
-// Alle Bewertungen für dieses Produkt abrufen
-$stmtComments = $connection->prepare("SELECT * FROM product_ratings WHERE product_id = ? ORDER BY created_at DESC");
-$stmtComments->bind_param("i", $product['id']);
+// Pagination für Bewertungen
+$reviewsPerPage = 5; // Anzahl der Bewertungen pro Seite
+$totalPages = ceil($ratingCount / $reviewsPerPage);
+$currentPage = isset($_GET['review_page']) ? (int)$_GET['review_page'] : 1;
+
+// Sicherstellen, dass die aktuelle Seite im gültigen Bereich liegt
+if ($currentPage < 1) $currentPage = 1;
+if ($currentPage > $totalPages && $totalPages > 0) $currentPage = $totalPages;
+
+// Offset für die SQL-Abfrage berechnen
+$offset = ($currentPage - 1) * $reviewsPerPage;
+
+// Bewertungen für die aktuelle Seite abrufen
+$stmtComments = $connection->prepare("SELECT * FROM product_ratings WHERE product_id = ? ORDER BY created_at DESC LIMIT ? OFFSET ?");
+$stmtComments->bind_param("iii", $product['id'], $reviewsPerPage, $offset);
 $stmtComments->execute();
 $comments = $stmtComments->get_result();
 
@@ -192,6 +204,7 @@ unset($_SESSION['review_data']);
     <div class="rating-form">
         <form method="post" action="<?= ROOT_URL ?>admin/review-logic.php">
             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+            <input type="hidden" name="return_slug" value="<?= $slug ?>">
             
             <div class="form-group">
                 <label for="user_name">Votre nom:</label>
@@ -246,11 +259,57 @@ unset($_SESSION['review_data']);
                     <?php endif; ?>
                 </div>
             <?php endwhile; ?>
+            
+            <!-- Pagination für Bewertungen -->
+            <?php if ($totalPages > 1): ?>
+                <div class="pagination">
+                    <div class="pagination-controls">
+                        <?php if ($currentPage > 1): ?>
+                            <a href="<?= ROOT_URL ?>products/<?= $slug ?>?review_page=1#review" class="page-link">«</a>
+                            <a href="<?= ROOT_URL ?>products/<?= $slug ?>?review_page=<?= $currentPage - 1 ?>#review" class="page-link">‹</a>
+                        <?php else: ?>
+                            <span class="page-link disabled">«</span>
+                            <span class="page-link disabled">‹</span>
+                        <?php endif; ?>
+                        
+                        <?php
+                        // Bestimme die Seitennummern, die angezeigt werden sollen
+                        $startPage = max(1, $currentPage - 2);
+                        $endPage = min($totalPages, $startPage + 4);
+                        
+                        if ($endPage - $startPage < 4) {
+                            $startPage = max(1, $endPage - 4);
+                        }
+                        
+                        for ($i = $startPage; $i <= $endPage; $i++): ?>
+                            <?php if ($i == $currentPage): ?>
+                                <span class="page-link active"><?= $i ?></span>
+                            <?php else: ?>
+                                <a href="<?= ROOT_URL ?>products/<?= $slug ?>?review_page=<?= $i ?>#review" class="page-link"><?= $i ?></a>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                        
+                        <?php if ($currentPage < $totalPages): ?>
+                            <a href="<?= ROOT_URL ?>products/<?= $slug ?>?review_page=<?= $currentPage + 1 ?>#review" class="page-link">›</a>
+                            <a href="<?= ROOT_URL ?>products/<?= $slug ?>?review_page=<?= $totalPages ?>#review" class="page-link">»</a>
+                        <?php else: ?>
+                            <span class="page-link disabled">›</span>
+                            <span class="page-link disabled">»</span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="pagination-info">
+                        Page <?= $currentPage ?> sur <?= $totalPages ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     <?php else: ?>
         <p class="no-comments">Aucun avis pour ce produit. Soyez le premier à donner votre avis!</p>
     <?php endif; ?>
 </div>
+
+
+
 <!----========================================== END ============================================---->
 <?php
 Include 'partials/footer.php';

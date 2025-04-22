@@ -3,12 +3,70 @@
 include 'partials/header.php';
 
 
-// Hole alle Bewertungen aus der Datenbank
+// Initialisiere Filter-Variablen
+$startDate = '';
+$endDate = '';
+$filterActive = false;
+
+// Verarbeite Filter-Formular
+if (isset($_POST['filter_submit'])) {
+    if (!empty($_POST['start_date'])) {
+        $startDate = $_POST['start_date'];
+    }
+    if (!empty($_POST['end_date'])) {
+        $endDate = $_POST['end_date'];
+    }
+    $filterActive = !empty($startDate) || !empty($endDate);
+}
+
+// SQL-Abfrage bauen
 $query = "SELECT r.*, p.title as product_title 
           FROM product_ratings r 
           JOIN products p ON r.product_id = p.id 
-          ORDER BY r.created_at DESC";
-$result = $connection->query($query);
+        ";
+$params = [];
+$types = "";
+
+if ($filterActive) {
+    // Filter anwenden
+    $whereClause = [];
+    
+    if (!empty($startDate)) {
+        $whereClause[] = "DATE(created_at) >= ?";
+        $params[] = $startDate;
+        $types .= "s";
+    }
+    
+    if (!empty($endDate)) {
+        $whereClause[] = "DATE(created_at) <= ?";
+        $params[] = $endDate;
+        $types .= "s";
+    }
+    
+    if (!empty($whereClause)) {
+        $query .= " WHERE " . implode(" AND ", $whereClause);
+    }
+}
+
+// Nach Datum absteigend sortieren (neueste zuerst)
+$query .= " ORDER BY created_at DESC";
+
+
+// Hole alle Bewertungen aus der Datenbank
+// $result = $connection->query($query);
+
+
+// Prepared Statement vorbereiten
+$stmt = $connection->prepare($query);
+
+// Parameter binden, falls vorhanden
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+
+// Abfrage ausführen
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <a href="index.php" >
@@ -18,6 +76,38 @@ $result = $connection->query($query);
 <div class="container mt-4">
     <h2>Gestion des avis</h2>
     
+<!-- Filter-Formular -->
+<div class="filter-form">
+        <form method="POST" action="">
+            <div class="filter_ord">
+                <div class="start_date">
+                    <label for="start_date" class="form-label">À partir de - Date:</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" value="<?php echo htmlspecialchars($startDate); ?>">
+                </div>
+                <div class="last_date">
+                    <label for="end_date" class="form-label">Jusqu'à - Date:</label>
+                    <input type="date" class="form-control" id="end_date" name="end_date" value="<?php echo htmlspecialchars($endDate); ?>">
+                </div>
+                <div class="fil_btns">
+                    <button type="submit" name="filter_submit">Filtrer</button>
+                    <a href="manage-reviews.php">Annuler</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <?php if ($filterActive): ?>
+        <div class="actif_filter">
+            Filtre actif: 
+            <?php 
+            if (!empty($startDate)) echo "À partir de: " . htmlspecialchars($startDate) . " ";
+            if (!empty($endDate)) echo "Jusqu'à: " . htmlspecialchars($endDate);
+            ?>
+            <a href="manage-reviews.php" class="btn btn-sm btn-outline-secondary ms-3">Annuler les filtres</a>
+        </div>
+        <?php endif; ?>
+
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -57,7 +147,7 @@ $result = $connection->query($query);
                                 <a href="edit-rating-logic.php?delete_review_id=<?= $review['id'] ?>" 
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('Sur de vouloir supprimer l\'avis?')">
-                                    Löschen
+                                    Supprimer
                                 </a>
                             </td>
                         </tr>

@@ -86,7 +86,7 @@ $result = $stmt->get_result();
         
         <?php if ($filterActive): ?>
         <div class="actif_filter">
-            Filter actif: 
+            Filtre actif: 
             <?php 
             if (!empty($startDate)) echo "À partir de: " . htmlspecialchars($startDate) . " ";
             if (!empty($endDate)) echo "Jusqu'à: " . htmlspecialchars($endDate);
@@ -117,7 +117,7 @@ $result = $stmt->get_result();
                                 <a href="edit-order-logic.php?delete_order_id=<?= $row['id'] ?>" 
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('Sur de vouloir supprimer la commande?')">
-                                    Löschen
+                                    Supprimer
                                 </a>
                                 </td>
                             </tr>

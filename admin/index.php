@@ -22,6 +22,22 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
 
 
 ?>
+<!----==========================================  message Section ============================================---->
+<?php if (!empty($_SESSION['add-success'])): ?>
+    <div class="alert success">
+        <h3>
+        <?= $_SESSION['add-success'];
+        unset($_SESSION['add-success']);
+        ?>
+        </h3>
+    </div>
+<?php endif ?>
+
+<?php if (isset($_SESSION['delete-success'])): ?>
+    <div class="alert success"><?= $_SESSION['delete-success']; unset($_SESSION['delete-success']); ?></div>
+    <?php elseif (isset($_SESSION['delete-error'])): ?>
+    <div class="alert error"><?= $_SESSION['delete-error']; unset($_SESSION['delete-error']); ?></div>
+<?php endif; ?>
 <!----==========================================  Dashboard Section ============================================---->
 <section class="dashboard">
     <div class="adBtn">
@@ -30,21 +46,7 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
         <button class="man_ord"><a href="manage-orders.php">Gestion des commandes</a></button>
         <button class="man_usr"><a href="manage-users.php">Gestion des admins</a></button>
 
-        <?php if (!empty($_SESSION['add-success'])): ?>
-            <div class="alert success">
-                <h3>
-                    <?= $_SESSION['add-success'];
-                    unset($_SESSION['add-success']);
-                    ?>
-                </h3>
-            </div>
-        <?php endif ?>
-
-        <?php if (isset($_SESSION['delete-success'])): ?>
-        <div class="alert success"><?= $_SESSION['delete-success']; unset($_SESSION['delete-success']); ?></div>
-        <?php elseif (isset($_SESSION['delete-error'])): ?>
-        <div class="alert error"><?= $_SESSION['delete-error']; unset($_SESSION['delete-error']); ?></div>
-        <?php endif; ?>
+        
     </div>
     <form class="filter_admin" method="GET" style="margin-bottom: 1rem;">
         <select name="category">
@@ -74,7 +76,7 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
                     <th>Categorie</th>
                     <th>En stock</th>
                     <th>Prix</th>
-                    <th>Prix final</th>
+                    <th>Prix affiché</th>
                     
                 </tr>
             </thead>
@@ -96,7 +98,7 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
                     </a>
                     </td>
                     <td>
-                    <a href="delete-product.php?id=<?= $row['id'] ?>" onclick="return confirm('Really want to delete this product?')">
+                    <a href="delete-product.php?id=<?= $row['id'] ?>" onclick="return confirm('Sur de vouloir supprimer ce produit?')">
                         <button style="background-color:rgb(232, 51, 51);; color:white; cursor:pointer; padding:0.5rem 1rem; border-radius:0.3rem;">Supprimer</button>
                     </a>
                     </td>

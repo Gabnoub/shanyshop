@@ -272,7 +272,68 @@ document.addEventListener("DOMContentLoaded", () => {
     prd_el.innerHTML = reviews.innerHTML;
     prdTitle.appendChild(prd_el);
 
+//
 
+const loadMoreBtn = document.getElementById('load-more-reviews');
+    
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            const btn = this;
+            const currentPage = parseInt(btn.getAttribute('data-page'));
+            const productId = btn.getAttribute('data-product');
+            const reviewsContainer = document.getElementById('reviews-container');
+            const productSlug = btn.getAttribute('data-slug');
+            
+            // Show loading state
+            btn.textContent = 'Chargement...';
+            btn.disabled = true;
+            
+            // Make AJAX request
+            fetch(`<?= ROOT_URL ?>products/<?= ${productSlug} ?>?ajax=1&page=${currentPage}&product_id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Add new reviews
+                    data.reviews.forEach(review => {
+                        const reviewHTML = `
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <span class="comment-author">${review.user_name}</span>
+                                    <span class="comment-date">${review.created_at}</span>
+                                </div>
+                                
+                                <div class="comment-rating">
+                                    ${[1, 2, 3, 4, 5].map(i => 
+                                        i <= review.rating ? 
+                                            '<span class="star">★</span>' : 
+                                            '<span class="star">☆</span>'
+                                    ).join('')}
+                                </div>
+                                
+                                ${review.comment ? `<div class="comment-text">${review.comment}</div>` : ''}
+                            </div>
+                        `;
+                        reviewsContainer.insertAdjacentHTML('beforeend', reviewHTML);
+                    });
+                    
+                    // Update button state
+                    if (data.hasMore) {
+                        btn.setAttribute('data-page', currentPage + 1);
+                        btn.textContent = 'Afficher plus d\'avis';
+                        btn.disabled = false;
+                    } else {
+                        // No more reviews to load
+                        btn.remove();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading reviews:', error);
+                    btn.textContent = 'Erreur. Réessayer';
+                    btn.disabled = false;
+                });
+        });
+    }
+
+//
 });
 //------------------------------------------------ show comment form -----------------------------------------------------------------------------//
 const review = document.getElementById("review");
@@ -280,4 +341,4 @@ const form = document.querySelector(".rating-form");
 review.addEventListener("click", () => {
   form.classList.toggle("active");
 });
-//------------------------------------- manage orders delete buttons ----------------------------------------------------------------//
+//---------------------------------------------------------  ----------------------------------------------------------------//
