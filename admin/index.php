@@ -27,6 +27,8 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
     <div class="adBtn">
         <button class="add_prd"><a href="addproduct.php">Ajouter un produit</a></button>
         <button class="man_rev"><a href="manage-reviews.php">Gestion des avis</a></button>
+        <button class="man_ord"><a href="manage-orders.php">Gestion des commandes</a></button>
+        <button class="man_usr"><a href="manage-users.php">Gestion des admins</a></button>
 
         <?php if (!empty($_SESSION['add-success'])): ?>
             <div class="alert success">

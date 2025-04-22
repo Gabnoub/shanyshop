@@ -44,11 +44,12 @@ $relatedProducts = $stmtRelated->get_result();
       </div>
       <div class="product-info">
         <div class="first__infos">
-            <!-- <h1>Boucles Anais</h1> -->
-            <?php if (!empty($product["title"])): ?>
-                <h1><?= htmlspecialchars($product["title"]) ?></h1>
-            <?php endif; ?>
-            <!-- <h4>5.000 Fcfa</h4> -->
+            <div id="prd_title">
+              <?php if (!empty($product["title"])): ?>
+                  <p><?= htmlspecialchars($product["title"]) ?></p>
+              <?php endif; ?>
+              <!-- <div id="clone_review">clone review</div>  -->
+            </div>
             <?php if ($product['price'] !== $product['final_price']): ?>
               <p style="text-decoration: line-through;"><del><?= number_format($product['price'], 0, ',', '.') ?> CFA</del></p>
               <p><strong><?= number_format($product['final_price'], 0, ',', '.') ?> CFA</strong></p>
@@ -63,9 +64,6 @@ $relatedProducts = $stmtRelated->get_result();
         </div>
         <div class="specific__infos">
             <ul>
-                <!-- <li>Material:</li>
-                <li>Couleur:</li>
-                <li>Taille:</li> -->
                 <?php if (!empty($product["material"])): ?>
                 <li><strong>Matière: </strong><?= htmlspecialchars($product["material"]) ?></li>
                 <?php endif; ?>
@@ -167,17 +165,19 @@ unset($_SESSION['review_data']);
     <!-- Durchschnittliche Bewertung anzeigen -->
     <div class="average-rating">
         <div class="rating-stars">
-            <?php for ($i = 1; $i <= 5; $i++): ?>
-                <?php if ($i <= $averageRating): ?>
-                    <span class="star filled">★</span>
-                <?php elseif ($i - 0.5 <= $averageRating): ?>
-                    <span class="star half-filled">★</span>
-                <?php else: ?>
-                    <span class="star">☆</span>
-                <?php endif; ?>
-            <?php endfor; ?>
-            <span class="rating-value"><?= $averageRating ?>/5</span>
-            <span class="rating-count">(<?= $ratingCount ?> avis)</span>
+        <div id="rev_stars">    
+          <?php for ($i = 1; $i <= 5; $i++): ?>
+                  <?php if ($i <= $averageRating): ?>
+                      <span class="star filled">★</span>
+                  <?php elseif ($i - 0.5 <= $averageRating): ?>
+                      <span class="star half-filled">★</span>
+                  <?php else: ?>
+                      <span class="star">☆</span>
+                  <?php endif; ?>
+          <?php endfor; ?>
+        </div>
+        <span class="rating-value"><?= $averageRating ?>/5</span>
+        <span class="rating-count">(<?= $ratingCount ?> avis)</span>
         </div>
     </div>
     <h3 ID="review">Laissez votre avis</h3>  
@@ -190,7 +190,7 @@ unset($_SESSION['review_data']);
         <?php endif; ?>           
     <!-- Bewertungsformular -->
     <div class="rating-form">
-        <form method="post" action="<?= ROOT_URL ?>review-logic.php">
+        <form method="post" action="<?= ROOT_URL ?>admin/review-logic.php">
             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
             
             <div class="form-group">

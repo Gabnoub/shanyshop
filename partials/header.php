@@ -18,6 +18,7 @@ Require 'config/database.php';
     <script src="<?= ROOT_URL ?>JS/script.js?v=<?php echo time(); ?>" defer></script>
 </head>
 <body>
+<div id="app" data-root-url=<?= ROOT_URL ?>></div>
 <!----========================================== first Section - promo/NAV/Caroussel ============================================---->
 <section class="first">
   <!------------------------------------------------------------ Promotion text -------------------------------------------------------------->

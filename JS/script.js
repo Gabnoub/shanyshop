@@ -62,10 +62,11 @@ document.querySelectorAll(".tn__image").forEach(input => {
     document.querySelector(".main__prImage").src = tnImageSrc;
     });
   });
-  // =======================================  Add to cart button was clicked  ==========================================//
+// =======================================  Add to cart button was clicked  ==========================================//
   window.addEventListener("pageshow", () => {
     renderCart();
   });
+
 // Warenkorb auslesen
 function getCart() {
   return JSON.parse(localStorage.getItem("cart")) || {};
@@ -107,6 +108,7 @@ function changeQty(id, delta) {
   }
 }
 
+
 // Warenkorb rendern
 function renderCart() {
   const cart = getCart();
@@ -117,7 +119,8 @@ function renderCart() {
   container.innerHTML = "";
   let totalItems = 0;
   let totalPrice = 0;
-  let message = "🛍️ Nouvelle commande:\n";
+  
+  let message = `🛍️ Nouvelle commande: \n`;
   // 💰 Gesamtpreis berechnen
   let total_price = Object.values(cart).reduce((sum, p) => sum + p.qty * p.price, 0);
   let summe = total_price.toLocaleString('de-DE') + " CFA";
@@ -172,6 +175,7 @@ function renderCart() {
       }
 
     message += `\n💰 Total: ${totalPrice.toLocaleString('de-DE')} CFA`;
+    
 
     if (totalEl) totalEl.textContent = totalPrice.toLocaleString('de-DE') + " CFA";
     
@@ -181,6 +185,33 @@ function renderCart() {
         const phone = "+237652042276";
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
         window.open(url, "_blank");
+        // fetch order details
+        
+  // Bestellung an die Datenbank senden
+  const bestellDaten = {
+    message: message,
+  };
+
+
+  const rootUrl = document.getElementById("app").dataset.rootUrl;
+  fetch(`${rootUrl}admin/save_orders.php`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams(bestellDaten),
+  })
+  .then(response => response.text())
+  .then(data => {
+    console.log("Antwort vom Server:", data);
+  })
+  .catch(error => {
+    console.error("Fehler beim Senden der Bestellung:", error);
+  });
+
+
+        
+      
       };
     }
   }
@@ -233,6 +264,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   lifestyleImages.forEach(image => observer.observe(image));
 
+// clone reiew under product title
+  const prdTitle = document.getElementById("prd_title");
+  const reviews = document.getElementById("rev_stars");
+  const prd_el = document.createElement("div");
+    prd_el.className = "clone_review";
+    prd_el.innerHTML = reviews.innerHTML;
+    prdTitle.appendChild(prd_el);
+
+
 });
 //------------------------------------------------ show comment form -----------------------------------------------------------------------------//
 const review = document.getElementById("review");
@@ -240,3 +280,4 @@ const form = document.querySelector(".rating-form");
 review.addEventListener("click", () => {
   form.classList.toggle("active");
 });
+//------------------------------------- manage orders delete buttons ----------------------------------------------------------------//
