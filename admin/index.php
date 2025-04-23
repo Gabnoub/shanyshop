@@ -40,14 +40,31 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
 <?php endif; ?>
 <!----==========================================  Dashboard Section ============================================---->
 <section class="dashboard">
+    <p style="font-size: large;"><strong>Admin-Dashboard</strong></p>
     <div class="adBtn">
-        <button class="add_prd"><a href="addproduct.php">Ajouter un produit</a></button>
-        <button class="man_rev"><a href="manage-reviews.php">Gestion des avis</a></button>
-        <button class="man_ord"><a href="manage-orders.php">Gestion des commandes</a></button>
-        <button class="man_usr"><a href="manage-users.php">Gestion des admins</a></button>
-
-        
+        <form>
+            <label  for="admin_choises"><strong>Gestion des taches</strong>  - Choisir l'option</label>
+            <select name="admin_choices" onchange="this.form.submit()">
+                <option value="null"></option>
+                <option value="addproduct.php">Ajouter un produit</option>
+                <option value="manage-reviews.php">Gestion des avis</option>
+                <option value="manage-orders.php">Gestion des commandes</option>
+                <option value="manage-users.php">Gestion des admins</option>
+                <option value="edit-shop.php">Gestion de la boutique</option>
+            </select>
+        </form>
     </div>
+<?php
+
+if (isset($_GET['admin_choices'])) {
+    $redirect = $_GET['admin_choices'];
+    
+    if (isset($redirect)) {
+        header("Location: $redirect");
+        exit;
+    }
+}
+?>
     <form class="filter_admin" method="GET" style="margin-bottom: 1rem;">
         <select name="category">
             <option value="">Toutes les catégories</option>
@@ -67,7 +84,7 @@ $fetch_products_result = mysqli_query($connection, $fetch_products_query);
     </form>
 
     <div class="gestion">
-        <h2>Gestion des produits</h2>
+        <p style="font-size: large;"><strong>Gestion des produits</strong></p>
         <table>
             <thead>
                 <tr>

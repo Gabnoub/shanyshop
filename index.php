@@ -38,16 +38,16 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
     <!--- Caroussel Images  -->
     <div class="caroussel">
         <div class="caroussel__container">
-                <img class="caroussel__image active"  src="images/1.jpg">
-                <img class="caroussel__image"  src="images/2.jpg">
-                <img class="caroussel__image"  src="images/4.png">
+                <img class="caroussel__image active"  src="<?= ROOT_URL ?>admin/images/<?= $caroussel_1 ?>">
+                <img class="caroussel__image"  src="<?= ROOT_URL ?>admin/images/<?= $caroussel_2 ?>">
+                <img class="caroussel__image"  src="<?= ROOT_URL ?>admin/images/<?= $caroussel_3 ?>">
         </div>
         <div class="progress-bars">
             <div class="progress-bar" onclick="currentSlide(0)"></div>
             <div class="progress-bar" onclick="currentSlide(1)"></div>
             <div class="progress-bar" onclick="currentSlide(2)"></div>
         </div>
-        <a class="call__to-action" href="<?= ROOT_URL ?>categories/tous-les-produits">DÉCOUVRIR</a>
+        <a class="call__to-action" href="<?= ROOT_URL ?>categories/<?= $dec_url ?>">DÉCOUVRIR</a>
     </div>
 
 <!----==========================================  New Products Section ============================================---->
@@ -83,9 +83,9 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
 <section class="lifestyle animation">
     <h2>Affirmez votre élégance</h2>    
         <div class="lifestyle__images">
-            <img src="images/1.jpg" alt="Lifestyle Image" class="lifestyle__image">
-            <img src="images/2.jpg" alt="Lifestyle Image" class="lifestyle__image">
-            <img src="images/1.jpg" alt="Lifestyle Image" class="lifestyle__image">
+            <img src="<?= ROOT_URL ?>admin/images/<?= $lifestyle_1 ?>" class="lifestyle__image">
+            <img src="<?= ROOT_URL ?>admin/images/<?= $lifestyle_2 ?>" class="lifestyle__image">
+            <img src="<?= ROOT_URL ?>admin/images/<?= $lifestyle_3 ?>" class="lifestyle__image">
         </div>
     </div>
 </section>
@@ -118,7 +118,7 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
 <!----============================================== About section ============================================----------->
 <section class="about animation">
     <div class="about__container">
-        <img class="about__image"  src="images/about.webp">
+        <img class="about__image"  src="<?= ROOT_URL ?>admin/images/<?= $story ?>">
         <article class="about__text">
             <!-- <h3>Élégance raffinée</h3> -->
             <!-- <h2>Inspirée par Hawaii</h2> -->

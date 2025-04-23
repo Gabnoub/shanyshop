@@ -1,0 +1,94 @@
+<?php
+Include 'partials/header.php';
+
+// get back form data if there was an error
+$promo = $_SESSION['add-data']['promo_text'] ?? null;
+
+// delete session data
+unset($_SESSION['add-data']);
+
+
+$sql = "SELECT * FROM shop_infos";
+$stmt = $connection->prepare($sql);
+$stmt->execute();
+$shop_infos = $stmt->get_result()->fetch_assoc();
+
+?>
+<!----==========================================  Add product Section ============================================---->
+<section class="form__section form__shop">
+<?php if (!empty($_SESSION['shop'])): ?> 
+                <div class="alert">
+                    <?= $_SESSION['shop'];
+                    unset($_SESSION['shop']);
+                    ?>
+                </div>
+<?php endif; ?>
+<a href="index.php" style="margin-left: 10px;">
+     <button type="button" class="sub__btn cancel"><i class="uil uil-arrow-left"></i></button>
+</a> 
+<h2>Gestion du shop</h2>
+        <form action="edit-shop-logic.php" enctype="multipart/form-data" method="POST">
+            <label for="promo">Changer le texte de promotion</label>
+            <input type="text" name="promo" value="<?= htmlspecialchars($shop_infos['promo']) ?>">
+            <label for="decouvrir">Changer le titre de la section "DECOUVRIR"</label>
+            <input type="text" name="decouvrir_title" value="<?= htmlspecialchars($shop_infos['decouvrir_title']) ?>">
+            <label for="decouvrir">Changer le text de la section "DECOUVRIR"</label>
+            <input type="text" name="decouvrir_text" value="<?= htmlspecialchars($shop_infos['decouvrir_text']) ?>">
+            <div class="form__control">
+                <label for="thumbnail">changer image 1 du caroussel (height: 600px)</label>
+                <?php if (!empty($shop_infos['image_car_1'])): ?>
+                    <img src="images/<?= htmlspecialchars($shop_infos['image_car_1']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
+                <?php endif; ?>
+                <input type="file" name="image_car_1">
+                <input type="hidden" name="current_image_car_1" value="<?= $shop_infos['image_car_1'] ?>">
+
+                <label for="thumbnail">changer image 2 du caroussel</label>
+                <?php if (!empty($shop_infos['image_car_2'])): ?>
+                    <img src="images/<?= htmlspecialchars($shop_infos['image_car_2']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
+                <?php endif; ?>
+                <input type="file" name="image_car_2">
+                <input type="hidden" name="current_image_car_2" value="<?= $shop_infos['image_car_2'] ?>">
+
+
+                <label for="thumbnail">changer image 3 du caroussel</label>
+                <?php if (!empty($shop_infos['image_car_3'])): ?>
+                    <img src="images/<?= htmlspecialchars($shop_infos['image_car_3']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
+                <?php endif; ?>
+                <input type="file" name="image_car_3">
+                <input type="hidden" name="current_image_car_3" value="<?= $shop_infos['image_car_3'] ?>">
+
+                <label for="thumbnail">changer image 1 du lifestyle (width/height: 460px)</label>
+                <?php if (!empty($shop_infos['image_lif_1'])): ?>
+                    <img src="images/<?= htmlspecialchars($shop_infos['image_lif_1']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
+                <?php endif; ?>
+                <input type="file" name="image_lif_1">
+                <input type="hidden" name="current_image_lif_1" value="<?= $shop_infos['image_lif_1'] ?>">
+
+                <label for="thumbnail">changer image 2 du lifestyle</label>
+                <?php if (!empty($shop_infos['image_lif_2'])): ?>
+                    <img src="images/<?= htmlspecialchars($shop_infos['image_lif_2']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
+                <?php endif; ?>
+                <input type="file" name="image_lif_2">
+                <input type="hidden" name="current_image_lif_2" value="<?= $shop_infos['image_lif_2'] ?>">
+
+                <label for="thumbnail">changer image 3 du lifestyle</label>
+                <?php if (!empty($shop_infos['image_lif_3'])): ?>
+                    <img src="images/<?= htmlspecialchars($shop_infos['image_lif_3']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
+                <?php endif; ?>
+                <input type="file" name="image_lif_3">
+                <input type="hidden" name="current_image_lif_3" value="<?= $shop_infos['image_lif_3'] ?>">  
+
+                <label for="thumbnail">changer image de la story (width/height: 460px)</label>
+                <?php if (!empty($shop_infos['image_story'])): ?>
+                    <img src="images/<?= htmlspecialchars($shop_infos['image_story']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
+                <?php endif; ?>
+                <input type="file" name="image_story">
+                <input type="hidden" name="current_image_story" value="<?= $shop_infos['image_story'] ?>"> 
+            </div>
+            <button type="submit" name="shop_submit" class="sub__btn">Valider les changements</button>
+        </form>
+    </div>
+</section>
+<?php
+Include '../partials/footer.php';
+?>

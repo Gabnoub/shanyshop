@@ -1,6 +1,6 @@
 <?php
 Include 'partials/header.php';
-$sort = $_GET['sort'] ?? 'default';
+$sort = $_GET['sort'] ?? 'discount_desc';
 
 switch ($sort) {
     case 'price_asc':
@@ -15,13 +15,24 @@ switch ($sort) {
     case 'title_desc':
         $orderBy = 'title DESC';
         break;
+    case 'discount_desc':
+        $orderBy = 'discount DESC';
+        break;
     default:
         $orderBy = 'id DESC';
 }
 
 $catslug = $_GET['cat_slug'] ?? null;
 
-if ($catslug && $catslug !== "tous-les-produits"){
+if ($catslug === $dec_url){
+    // Wenn kein cat_slug angegeben ist
+    if (!isset($_GET['sort'])){
+        $_GET['sort'] = 'discount_desc';
+    } 
+    $fetch_products_query = "SELECT * FROM products ORDER BY $orderBy";
+    $fetch_products_result = mysqli_query($connection, $fetch_products_query);
+    $count = mysqli_num_rows($fetch_products_result);
+} else {
     // set $id
     if ($catslug === "Bracelets") {
         $id = 0;
@@ -44,11 +55,6 @@ if ($catslug && $catslug !== "tous-les-produits"){
     $count_stmt->execute();
     $count_result = $count_stmt->get_result();
     $count = $count_result->fetch_assoc()['count'];
-} else {
-    // Wenn kein cat_slug angegeben ist
-    $fetch_products_query = "SELECT * FROM products ORDER BY $orderBy";
-    $fetch_products_result = mysqli_query($connection, $fetch_products_query);
-    $count = mysqli_num_rows($fetch_products_result);
 }
 
 if (!$fetch_products_result) {
@@ -65,8 +71,9 @@ if (!$fetch_products_result) {
             <strong><?=  $shany_categories[$id ?? 4] ?></strong>
     </div>    
     <div class="category__description">
-        <h2><?= $shany_categories[$id ?? 4] ?></h2>
-        <p><?= $shany_categories_description[$id ?? 4] ?></p>
+        <h2><?= isset($id) ? $shany_categories[$id] : $dec_title ?></h2>
+        <p><?= isset($id) ? $shany_categories_description[$id] : $dec_text ?></p>
+        <!-- <p><?= $shany_categories_description[$id] ?? $dec_text ?></p> -->
         <div class="cat_filter">
             <?php if ($count === 1): ?>
                 <p class="num__products"><?= $count ?> produit</p>
@@ -78,6 +85,7 @@ if (!$fetch_products_result) {
                 <label for="sort">Trier par:</label>
                 <select name="sort" id="sort" onchange="this.form.submit()">
                     <option value="default" <?= (!isset($_GET['sort']) || $_GET['sort'] == 'default') ? 'selected' : '' ?>>Standard</option>
+                    <option value="discount_desc" <?= ($_GET['sort'] ?? 'discount_desc') === 'discount_desc' ? 'selected' : '' ?>>En promotion</option>
                     <option value="price_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'price_asc') ? 'selected' : '' ?>>Prix: faible à élévé</option>
                     <option value="price_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? 'selected' : '' ?>>Prix: élévé à faible</option>
                     <option value="title_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'title_asc') ? 'selected' : '' ?>>Titre A-Z</option>

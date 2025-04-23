@@ -2,22 +2,23 @@
 require_once 'config/database.php';
 
 if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
-    $id = (int)$_POST['id'];
-    $category = $_POST['category'];
-    $en_stock = $_POST['en_stock'];
-    $title = $_POST['title'];
-    $material = $_POST['material'];
-    $color = $_POST['color'];
-    $size = $_POST['size'];
-    $description1 = $_POST['description1'];
-    $bulletpoint1 = $_POST['bulletpoint1'];
-    $bulletpoint2 = $_POST['bulletpoint2'];
-    $bulletpoint3 = $_POST['bulletpoint3'];
-    $bulletpoint4 = $_POST['bulletpoint4'];
-    $description2 = $_POST['description2'];
-    $price = $_POST['price'];
-    $discount = $_POST['discount'];
-    
+    $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+    $category = filter_var($_POST['category'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $en_stock = filter_var($_POST['en_stock'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $title = filter_var($_POST['title'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $material = filter_var($_POST['material'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $color = filter_var($_POST['color'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $size = filter_var($_POST['size'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $description1 = filter_var($_POST['description1'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $bulletpoint1 = filter_var($_POST['bulletpoint1'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $bulletpoint2 = filter_var($_POST['bulletpoint2'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $bulletpoint3 = filter_var($_POST['bulletpoint3'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $bulletpoint4 = filter_var($_POST['bulletpoint4'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $description2 = filter_var($_POST['description2'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $discount = filter_var($_POST['discount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+
 
     // validate input
     if ($category === 'null') {

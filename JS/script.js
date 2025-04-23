@@ -289,7 +289,7 @@ const loadMoreBtn = document.getElementById('load-more-reviews');
             btn.disabled = true;
             
             // Make AJAX request
-            fetch(`<?= ROOT_URL ?>products/<?= ${productSlug} ?>?ajax=1&page=${currentPage}&product_id=${productId}`)
+            fetch(`<?= ROOT_URL ?>products/<?= $slug ?>?ajax=1&page=${currentPage}&product_id=${productId}`)
                 .then(response => response.json())
                 .then(data => {
                     // Add new reviews

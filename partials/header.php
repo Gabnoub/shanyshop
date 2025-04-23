@@ -1,6 +1,20 @@
 <?php
 Require 'config/database.php';
-
+$sql = "SELECT * FROM shop_infos";
+$stmt = $connection->prepare($sql);
+$stmt->execute();
+$shop_infos = $stmt->get_result()->fetch_assoc();
+$promo = $shop_infos['promo'] ?? '';
+$dec_title = $shop_infos['decouvrir_title'] ?? '';
+$dec_text = $shop_infos['decouvrir_text'] ?? '';
+$dec_url = $shop_infos['decouvrir_url'] ?? '';
+$caroussel_1 = $shop_infos['image_car_1'] ?? '';
+$caroussel_2 = $shop_infos['image_car_2'] ?? '';
+$caroussel_3 = $shop_infos['image_car_3'] ?? '';
+$lifestyle_1 = $shop_infos['image_lif_1'] ?? '';
+$lifestyle_2 = $shop_infos['image_lif_2'] ?? '';
+$lifestyle_3 = $shop_infos['image_lif_3'] ?? '';
+$story = $shop_infos['image_story'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +36,7 @@ Require 'config/database.php';
 <!----========================================== first Section - promo/NAV/Caroussel ============================================---->
 <section class="first">
   <!------------------------------------------------------------ Promotion text -------------------------------------------------------------->
-  <div class="promotion"><?= $shany_promo ?></div>
+  <div class="promotion"><?= $promo ?></div>
   <!------------------------------------------------------------ Navigation Bar --------------------------------------------------------- -->
   <nav class="nav__container">
       <a class="nav__logo" href="<?= ROOT_URL ?>">
@@ -47,26 +61,7 @@ Require 'config/database.php';
             <button ID="cart__qty_new"></button>
           </div>
           <div class="cit">
-            <div ID="cp-items" class="cart__product-items">
-                  <!-- <div class="cart__product-item" data-id="1">
-                      <a class="cart__pr_link" href="product.php"><img src="images/1.jpg"></a>
-                      <div class="cart__right">
-                          <div class="cart_description">
-                              <p class="cart__pr__title"><strong>Collier en argent</strong></p>
-                              <p class="cart__pr__price">15.000 FCFA</p>
-                          </div>
-                          <div class="quantity">
-                              <button ID="minus">-</button>
-                              <button ID="qty">1</button>
-                              <button ID="plus">+</button>
-                          </div>
-                      </div>
-                  </div> -->
-                  
-              </div>
-              
-              <!-- <button id="commander">Commander via <i class="uil uil-whatsapp"></i> Whatsapp</button> -->
-            
+            <div ID="cp-items" class="cart__product-items"></div>
           </div>
       </div>
   </nav>
