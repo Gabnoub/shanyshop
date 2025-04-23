@@ -17,7 +17,7 @@ if (isset($_GET['en_stock']) && $_GET['en_stock'] !== '') {
 }
 $where_sql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
 
-$fetch_products_query = "SELECT id, title, category, en_stock, image1, price, final_price FROM products $where_sql";
+$fetch_products_query = "SELECT id, title, category, en_stock, image1, price, final_price, cat_slug FROM products $where_sql";
 $fetch_products_result = mysqli_query($connection, $fetch_products_query);
 
 
@@ -68,10 +68,10 @@ if (isset($_GET['admin_choices'])) {
     <form class="filter_admin" method="GET" style="margin-bottom: 1rem;">
         <select name="category">
             <option value="">Toutes les catégories</option>
-            <option value="0">Bracelets</option>
-            <option value="1">Boucles</option>
-            <option value="2">Colliers</option>
-            <option value="3">Autres</option>
+            <option value="0"><?= $category_1 ?></option>
+            <option value="1"><?= $category_2 ?></option>
+            <option value="2"><?= $category_3 ?></option>
+            <option value="3"><?= $category_4 ?></option>
         </select>
 
         <select name="en_stock">
@@ -105,7 +105,7 @@ if (isset($_GET['admin_choices'])) {
                         <img src="images/<?= htmlspecialchars($row['image1']) ?>" style="height:40px; width:40px; object-fit:cover; vertical-align:middle; margin-right:10px;">
                         <?= htmlspecialchars($row['title']) ?>
                     </td>
-                    <td><?= $shany_categories[htmlspecialchars($row['category'])] ?></td>
+                    <td><?= $row['cat_slug'] ?></td>
                     <td><?= $shany_en_stock[htmlspecialchars($row['en_stock'])] ?></td>
                     <td><?= $row['price'] ?></td>
                     <td><?= $row['final_price'] ?></td>

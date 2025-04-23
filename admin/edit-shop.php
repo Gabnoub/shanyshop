@@ -30,11 +30,34 @@ $shop_infos = $stmt->get_result()->fetch_assoc();
         <form action="edit-shop-logic.php" enctype="multipart/form-data" method="POST">
             <label for="promo">Changer le texte de promotion</label>
             <input type="text" name="promo" value="<?= htmlspecialchars($shop_infos['promo']) ?>">
+
             <label for="decouvrir">Changer le titre de la section "DECOUVRIR"</label>
             <input type="text" name="decouvrir_title" value="<?= htmlspecialchars($shop_infos['decouvrir_title']) ?>">
+
             <label for="decouvrir">Changer le text de la section "DECOUVRIR"</label>
             <input type="text" name="decouvrir_text" value="<?= htmlspecialchars($shop_infos['decouvrir_text']) ?>">
-            <div class="form__control">
+
+            <label for="categories">Changer le titre  de la categorie 1</label>
+            <input type="text" name="category_1" value="<?= htmlspecialchars($shop_infos['category_1']) ?>">
+            <label for="categories">Changer le texte  de la categorie 1</label>
+            <input type="text" name="category_text_1" value="<?= htmlspecialchars($shop_infos['category_text_1']) ?>">
+
+            <label for="categories">Changer le titre  de la categorie 2</label>
+            <input type="text" name="category_2" value="<?= htmlspecialchars($shop_infos['category_2']) ?>">
+            <label for="categories">Changer le texte  de la categorie 2</label>
+            <input type="text" name="category_text_2" value="<?= htmlspecialchars($shop_infos['category_text_2']) ?>">
+
+            <label for="categories">Changer le titre  de la categorie 3</label>
+            <input type="text" name="category_3" value="<?= htmlspecialchars($shop_infos['category_3']) ?>">
+            <label for="categories">Changer le texte  de la categorie 3</label>
+            <input type="text" name="category_text_3" value="<?= htmlspecialchars($shop_infos['category_text_3']) ?>">
+
+            <label for="categories">Changer le titre  de la categorie 4</label>
+            <input type="text" name="category_4" value="<?= htmlspecialchars($shop_infos['category_4']) ?>">
+            <label for="categories">Changer le texte  de la categorie 4</label>
+            <input type="text" name="category_text_4" value="<?= htmlspecialchars($shop_infos['category_text_4']) ?>">
+            
+            <div class="form__control form__shop">
                 <label for="thumbnail">changer image 1 du caroussel (height: 600px)</label>
                 <?php if (!empty($shop_infos['image_car_1'])): ?>
                     <img src="images/<?= htmlspecialchars($shop_infos['image_car_1']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
@@ -85,6 +108,8 @@ $shop_infos = $stmt->get_result()->fetch_assoc();
                 <input type="file" name="image_story">
                 <input type="hidden" name="current_image_story" value="<?= $shop_infos['image_story'] ?>"> 
             </div>
+            <label for="story">Changer le texte  de la Story </label>
+                <input type="text" name="text_story" value="<?= htmlspecialchars($shop_infos['text_story']) ?>">
             <button type="submit" name="shop_submit" class="sub__btn">Valider les changements</button>
         </form>
     </div>

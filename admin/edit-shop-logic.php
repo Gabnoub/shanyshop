@@ -6,6 +6,15 @@ if (isset($_POST['shop_submit'])) {
     $promo = filter_var($_POST['promo'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $dec_title = filter_var($_POST['decouvrir_title'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $dec_text = filter_var($_POST['decouvrir_text'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_1 = filter_var($_POST['category_1'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_2 = filter_var($_POST['category_2'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_3 = filter_var($_POST['category_3'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_4 = filter_var($_POST['category_4'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_text_1 = filter_var($_POST['category_text_1'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_text_2 = filter_var($_POST['category_text_2'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_text_3 = filter_var($_POST['category_text_3'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category_text_4 = filter_var($_POST['category_text_4'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $text_story = filter_var($_POST['text_story'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $image_car_1 = $_FILES['image_car_1'];
     $image_car_2 = $_FILES['image_car_2'];
     $image_car_3 = $_FILES['image_car_3'];
@@ -83,7 +92,9 @@ if (isset($_POST['shop_submit'])) {
         // Prepare SQL Update
         $sql = "UPDATE shop_infos SET
             promo = ?, decouvrir_title = ?, decouvrir_text = ?, image_car_1 = ?, image_car_2 = ?, image_car_3 = ?, image_lif_1 = ?, image_lif_2 = ?,
-            image_lif_3 = ?, image_story = ? WHERE id = ?";
+            image_lif_3 = ?, image_story = ?, category_1 = ?, category_2 = ?, category_3 = ?, category_4 = ?,
+            category_text_1 = ?, category_text_2 = ?, category_text_3 = ?, category_text_4 = ?, text_story = ?
+            WHERE id = ?";
         
         $stmt = $connection->prepare($sql);
         if (!$stmt) {
@@ -91,9 +102,10 @@ if (isset($_POST['shop_submit'])) {
             header("Location: edit-shop.php");
             exit;
         }
-        $stmt->bind_param("ssssssssssi",
+        $stmt->bind_param("sssssssssssssssssssi",
             $promo, $dec_title, $dec_text, $cur_images[0], $cur_images[1], $cur_images[2], $cur_images[3], $cur_images[4],
-            $cur_images[5], $cur_images[6],
+            $cur_images[5], $cur_images[6], $category_1, $category_2, $category_3, $category_4, $category_text_1, 
+            $category_text_2, $category_text_3, $category_text_4, $text_story,
             $id
         );
     

@@ -1,6 +1,8 @@
 <?php
 Include 'partials/header.php';
-$sort = $_GET['sort'] ?? 'discount_desc';
+$_en_stock = 0;
+
+$sort = $_GET['sort'] ?? 'default';
 
 switch ($sort) {
     case 'price_asc':
@@ -25,33 +27,39 @@ switch ($sort) {
 $catslug = $_GET['cat_slug'] ?? null;
 
 if ($catslug === $dec_url){
-    // Wenn kein cat_slug angegeben ist
     if (!isset($_GET['sort'])){
         $_GET['sort'] = 'discount_desc';
+        $orderBy = 'discount DESC';
     } 
-    $fetch_products_query = "SELECT * FROM products ORDER BY $orderBy";
+    $cat_title = $dec_title;
+    $cat_text = $dec_text;
+    $fetch_products_query = "SELECT * FROM products WHERE en_stock = $_en_stock ORDER BY $orderBy";
     $fetch_products_result = mysqli_query($connection, $fetch_products_query);
     $count = mysqli_num_rows($fetch_products_result);
 } else {
     // set $id
-    if ($catslug === "Bracelets") {
-        $id = 0;
-    } elseif ($catslug === "Boucles-d-oreilles") {
-        $id = 1;
-    } elseif ($catslug === "Colliers") {
-        $id = 2;
-    } elseif ($catslug === "Accessoires") {
-        $id = 3;
+    if ($catslug === $cat_slug[0]) {
+        $cat_title = $category_1;
+        $cat_text = $category_text_1;
+    } elseif ($catslug === $cat_slug[1]) {
+        $cat_title = $category_2;
+        $cat_text = $category_text_2;
+    } elseif ($catslug === $cat_slug[2]) {
+        $cat_title = $category_3;
+        $cat_text = $category_text_3;
+    } elseif ($catslug === $cat_slug[3]) {
+        $cat_title = $category_4;
+        $cat_text = $category_text_4;
     }
     // Verwende vorbereitete Anweisung für die Produktauswahl
-    $stmt = $connection->prepare("SELECT * FROM products WHERE cat_slug = ? ORDER BY $orderBy");
-    $stmt->bind_param("s", $catslug);
+    $stmt = $connection->prepare("SELECT * FROM products WHERE cat_slug = ? AND en_stock = ? ORDER BY $orderBy");
+    $stmt->bind_param("si", $catslug, $_en_stock);
     $stmt->execute();
     $fetch_products_result = $stmt->get_result();
 
     // Verwende vorbereitete Anweisung für die Zählung
-    $count_stmt = $connection->prepare("SELECT COUNT(*) as count FROM products WHERE cat_slug = ?");
-    $count_stmt->bind_param("s", $catslug);
+    $count_stmt = $connection->prepare("SELECT COUNT(*) as count FROM products WHERE cat_slug = ? AND en_stock = ?");
+    $count_stmt->bind_param("si", $catslug, $_en_stock);
     $count_stmt->execute();
     $count_result = $count_stmt->get_result();
     $count = $count_result->fetch_assoc()['count'];
@@ -68,12 +76,11 @@ if (!$fetch_products_result) {
 <section>
     <div class="home__category">
             <a style="color:black" href="<?= ROOT_URL ?>">Accueil</a>
-            <strong><?=  $shany_categories[$id ?? 4] ?></strong>
+            <strong><?=  $cat_title ?></strong>
     </div>    
     <div class="category__description">
-        <h2><?= isset($id) ? $shany_categories[$id] : $dec_title ?></h2>
-        <p><?= isset($id) ? $shany_categories_description[$id] : $dec_text ?></p>
-        <!-- <p><?= $shany_categories_description[$id] ?? $dec_text ?></p> -->
+        <h2><?= $cat_title ?></h2>
+        <p><?= $cat_text ?></p>
         <div class="cat_filter">
             <?php if ($count === 1): ?>
                 <p class="num__products"><?= $count ?> produit</p>
@@ -85,7 +92,7 @@ if (!$fetch_products_result) {
                 <label for="sort">Trier par:</label>
                 <select name="sort" id="sort" onchange="this.form.submit()">
                     <option value="default" <?= (!isset($_GET['sort']) || $_GET['sort'] == 'default') ? 'selected' : '' ?>>Standard</option>
-                    <option value="discount_desc" <?= ($_GET['sort'] ?? 'discount_desc') === 'discount_desc' ? 'selected' : '' ?>>En promotion</option>
+                    <option value="discount_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'discount_desc') ? 'selected' : '' ?>>En promotion</option>
                     <option value="price_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'price_asc') ? 'selected' : '' ?>>Prix: faible à élévé</option>
                     <option value="price_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? 'selected' : '' ?>>Prix: élévé à faible</option>
                     <option value="title_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'title_asc') ? 'selected' : '' ?>>Titre A-Z</option>

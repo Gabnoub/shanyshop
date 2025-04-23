@@ -17,6 +17,8 @@ if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
     $description2 = filter_var($_POST['description2'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $discount = filter_var($_POST['discount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $slug = preg_replace('/[^a-zA-Z0-9\-_]/', '-', $title);
+    $cat_slug = $cat_slug[$category];
 
 
 
@@ -94,15 +96,15 @@ if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
         $sql = "UPDATE products SET
             category = ?, en_stock = ?, title = ?, material = ?, color = ?, size = ?,
             description1 = ?, bulletpoint1 = ?, bulletpoint2 = ?, bulletpoint3 = ?, bulletpoint4 = ?, description2 = ?,
-            image1 = ?, image2 = ?, image3 = ?, image4 = ?, price = ?, discount = ?, final_price = ?
-            WHERE id = ?";
+            image1 = ?, image2 = ?, image3 = ?, image4 = ?, price = ?, discount = ?, final_price = ?, slug = ?, cat_slug = ?
+            WHERE id = ?" ;
 
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param("iissssssssssssssiiii",
+        $stmt->bind_param("iissssssssssssssiiissi",
             $category, $en_stock, $title, $material, $color, $size,
             $description1, $bulletpoint1, $bulletpoint2, $bulletpoint3, $bulletpoint4, $description2,
             $cur_images[0], $cur_images[1], $cur_images[2], $cur_images[3],
-            $price, $discount, $final_price,
+            $price, $discount, $final_price, $slug, $cat_slug,
             $id
         );
 

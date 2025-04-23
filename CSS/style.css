@@ -1914,7 +1914,8 @@ table, th, td {
     padding: 0.5rem 1rem;
     width: 1000px;
     background-color: #b2f0d4;
-    margin: 1rem 1rem;
+    margin: 1rem 1rem 3rem 1rem ;
+    border-bottom: 2px solid black;
 }
 .shop__promo{
     margin-bottom: 1.5rem;
@@ -1925,4 +1926,11 @@ table, th, td {
     margin: 1rem;
     font-weight: 600;
 
+}
+.form__section.form__shop .form__control > input{
+    padding: 0.5rem 1rem;
+    width: 1000px;
+    /* background-color: #b2f0d4; */
+    margin: 1rem 1rem 3rem 1rem ;
+    border-bottom: 2px solid black;
 }

@@ -1,5 +1,6 @@
 <?php
 Require 'config/database.php';
+
 $sql = "SELECT * FROM shop_infos";
 $stmt = $connection->prepare($sql);
 $stmt->execute();
@@ -8,6 +9,14 @@ $promo = $shop_infos['promo'] ?? '';
 $dec_title = $shop_infos['decouvrir_title'] ?? '';
 $dec_text = $shop_infos['decouvrir_text'] ?? '';
 $dec_url = $shop_infos['decouvrir_url'] ?? '';
+$category_1 = html_entity_decode($shop_infos['category_1'], ENT_QUOTES, 'UTF-8') ?? '';
+$category_2 = html_entity_decode($shop_infos['category_2'], ENT_QUOTES, 'UTF-8') ?? '';
+$category_3 = html_entity_decode($shop_infos['category_3'], ENT_QUOTES, 'UTF-8') ?? '';
+$category_4 = html_entity_decode($shop_infos['category_4'], ENT_QUOTES, 'UTF-8') ?? '';
+$category_text_1 = $shop_infos['category_text_1'] ?? '';
+$category_text_2 = $shop_infos['category_text_2'] ?? '';
+$category_text_3 = $shop_infos['category_text_3'] ?? '';
+$category_text_4 = $shop_infos['category_text_4'] ?? '';
 $caroussel_1 = $shop_infos['image_car_1'] ?? '';
 $caroussel_2 = $shop_infos['image_car_2'] ?? '';
 $caroussel_3 = $shop_infos['image_car_3'] ?? '';
@@ -15,6 +24,12 @@ $lifestyle_1 = $shop_infos['image_lif_1'] ?? '';
 $lifestyle_2 = $shop_infos['image_lif_2'] ?? '';
 $lifestyle_3 = $shop_infos['image_lif_3'] ?? '';
 $story = $shop_infos['image_story'] ?? '';
+$text_story = $shop_infos['text_story'] ?? '';
+$cat_slug[0] =  preg_replace('/[^a-zA-Z0-9\-_]/', '-', $category_1) ?? '';
+$cat_slug[1] =  preg_replace('/[^a-zA-Z0-9\-_]/', '-', $category_2) ?? '';
+$cat_slug[2] =  preg_replace('/[^a-zA-Z0-9\-_]/', '-', $category_3) ?? '';
+$cat_slug[3] =  preg_replace('/[^a-zA-Z0-9\-_]/', '-', $category_4) ?? '';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,10 +59,10 @@ $story = $shop_infos['image_story'] ?? '';
               SHANY
       </a>
       <ul class="nav__links">
-          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[2] ?>" class="nav__link"><?= $shany_categories[2] ?></a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[1] ?>" class="nav__link"><?= $shany_categories[1] ?></a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[0] ?>" class="nav__link"><?= $shany_categories[0] ?></a></li>
-          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[3] ?>" class="nav__link"><?= $shany_categories[3] ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[0] ?>" class="nav__link"><?= $category_1 ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[1] ?>" class="nav__link"><?= $category_2 ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[2] ?>" class="nav__link"><?= $category_3 ?></a></li>
+          <li class="nav__item"><a href="<?= ROOT_URL ?>categories/<?= $cat_slug[3] ?>" class="nav__link"><?= $category_4 ?></a></li>
       </ul>
       <button id="menu__icon">☰</button>
       <div id="opcart" class="open__cart">

@@ -1,6 +1,7 @@
 <?php
 Include 'partials/header.php';
 $slug = $_GET['slug'] ?? '';
+$_en_stock = 0;
 
 if ($slug) {
     $stmt = $connection->prepare("SELECT * FROM products WHERE slug = ?");
@@ -17,10 +18,11 @@ if ($slug) {
     exit;
 }
 // Prepare and execute a query to fetch 4 random related products from the same category (excluding the current product)
-$stmtRelated = $connection->prepare("SELECT id, title, image1, price, final_price, slug FROM products WHERE category = ? AND slug != ? ORDER BY RAND() LIMIT 4");
-$stmtRelated->bind_param("is", $product['category'], $slug);
+$stmtRelated = $connection->prepare("SELECT id, title, image1, price, final_price, slug FROM products WHERE category = ? AND slug != ? AND en_stock = ? ORDER BY RAND() LIMIT 4");
+$stmtRelated->bind_param("isi", $product['category'], $slug, $_en_stock);
 $stmtRelated->execute();
 $relatedProducts = $stmtRelated->get_result();
+$count_related = mysqli_num_rows($relatedProducts);
 
 
 ?>
@@ -103,28 +105,32 @@ $relatedProducts = $stmtRelated->get_result();
 
 </div>
     <!-- Ähnliche Produkte -->
-<div class="related-products">
-    <h2>Vous aimerez également:</h2>
-    <div class="related-grid">
-      <?php while($relProduct = $relatedProducts->fetch_assoc()): ?>
-        <div class="related-item">
-          <a class="related_p" href="<?= ROOT_URL ?>products/<?= $relProduct['slug'] ?>">
-            <img src="<?= ROOT_URL ?>admin/images/<?= htmlspecialchars($relProduct['image1']) ?>" alt="<?= htmlspecialchars($relProduct['title']) ?>">
-          <p><?= htmlspecialchars($relProduct['title']) ?></p>
-          <p >
-            <?php if ($relProduct['price'] !== $relProduct['final_price']): ?>
-              <del style="text-decoration: line-through;"><?= number_format($relProduct['price'], 0, ',', '.') ?></del>
-              <strong><?= number_format($relProduct['final_price'], 0, ',', '.') ?> CFA</strong>
-              <button class="rabatt">- <?= round(100 - (($relProduct['final_price'] * 100) / $relProduct['price'])) ?> %</button>
-            <?php else: ?>
-              <strong><?= number_format($relProduct['price'], 0, ',', '.') ?> CFA</strong>
-            <?php endif; ?>
-          </p>
-          </a>
+<?php if ($count_related > 0): ?>
+    
+    <div class="related-products">
+        <h2>Vous aimerez également:</h2>
+        <div class="related-grid">
+        <?php while($relProduct = $relatedProducts->fetch_assoc()): ?>
+            <div class="related-item">
+            <a class="related_p" href="<?= ROOT_URL ?>products/<?= $relProduct['slug'] ?>">
+                <img src="<?= ROOT_URL ?>admin/images/<?= htmlspecialchars($relProduct['image1']) ?>" alt="<?= htmlspecialchars($relProduct['title']) ?>">
+            <p><?= htmlspecialchars($relProduct['title']) ?></p>
+            <p >
+                <?php if ($relProduct['price'] !== $relProduct['final_price']): ?>
+                <del style="text-decoration: line-through;"><?= number_format($relProduct['price'], 0, ',', '.') ?></del>
+                <strong><?= number_format($relProduct['final_price'], 0, ',', '.') ?> CFA</strong>
+                <button class="rabatt">- <?= round(100 - (($relProduct['final_price'] * 100) / $relProduct['price'])) ?> %</button>
+                <?php else: ?>
+                <strong><?= number_format($relProduct['price'], 0, ',', '.') ?> CFA</strong>
+                <?php endif; ?>
+            </p>
+            </a>
+            </div>
+        <?php endwhile; ?>
         </div>
-      <?php endwhile; ?>
     </div>
-</div>
+
+<?php endif; ?>
 
 
 <!----------------------------------------------------- Bewertungsbereich HTML ----------------------------------------------------------------->

@@ -39,10 +39,10 @@ unset($_SESSION['add-data']);
                 <label class="required-label" for="category">Choisir la categorie *</label>
                 <select name="category">
                     <option value=null <?= $category === null ? 'selected' : '' ?>></option>
-                    <option value=0 <?= $category === 0 ? 'selected' : '' ?>>Bracelets</option>
-                    <option value=1 <?= $category === 1 ? 'selected' : '' ?>>Boucles</option>
-                    <option value=2 <?= $category === 2 ? 'selected' : '' ?>>Colliers</option>
-                    <option value=3 <?= $category === 3 ? 'selected' : '' ?>>Accessoires</option>
+                    <option value=0 <?= $category === 0 ? 'selected' : '' ?>><?= htmlspecialchars($category_1) ?></option>
+                    <option value=1 <?= $category === 1 ? 'selected' : '' ?>><?= htmlspecialchars($category_2) ?></option>
+                    <option value=2 <?= $category === 2 ? 'selected' : '' ?>><?= htmlspecialchars($category_3) ?></option>
+                    <option value=3 <?= $category === 3 ? 'selected' : '' ?>><?= htmlspecialchars($category_4) ?></option>
                 </select>
 
             </div>

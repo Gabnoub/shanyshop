@@ -3,7 +3,7 @@ require 'config/database.php';
 
 if (isset($_POST['add_submit'])) {
     // Sanitize Inputs
-    $category = filter_var($_POST['category'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $category = intval(filter_var($_POST['category'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $en_stock = filter_var($_POST['en_stock'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $title = filter_var($_POST['title'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $material = filter_var($_POST['material'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -18,6 +18,8 @@ if (isset($_POST['add_submit'])) {
     $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $discount = filter_var($_POST['discount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $image1 = $_FILES['image1'];
+    $slug = preg_replace('/[^a-zA-Z0-9\-_]/', '-', $title);
+    $cat_slug = $cat_slug[$category];
 
     // if (!$title || !$price || !$description1 || $category === 'null' || $en_stock === 'null') {
     //     $_SESSION['add'] = "please fill in all required fields";
@@ -77,17 +79,17 @@ if (isset($_POST['add_submit'])) {
     $sql = "INSERT INTO products (
         category, en_stock, title, material, color, size,
         description1, bulletpoint1, bulletpoint2, bulletpoint3, bulletpoint4,
-        description2, image1, image2, image3, image4, price, discount, final_price
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        description2, image1, image2, image3, image4, price, discount, final_price, slug, cat_slug
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $connection->prepare($sql);
     $stmt->bind_param(
-        "iissssssssssssssiii",
+        "iissssssssssssssiiiss",
         $category, $en_stock, $title, $material, $color, $size,
         $description1, $bulletpoint1, $bulletpoint2, $bulletpoint3, $bulletpoint4,
         $description2,
         $image_names[1], $image_names[2], $image_names[3], $image_names[4],
-        $price, $discount, $final_price
+        $price, $discount, $final_price, $slug, $cat_slug
     );
     
 
