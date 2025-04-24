@@ -108,8 +108,21 @@ $shop_infos = $stmt->get_result()->fetch_assoc();
                 <input type="file" name="image_story">
                 <input type="hidden" name="current_image_story" value="<?= $shop_infos['image_story'] ?>"> 
             </div>
-            <label for="story">Changer le texte  de la Story </label>
-                <input type="text" name="text_story" value="<?= htmlspecialchars($shop_infos['text_story']) ?>">
+            <label for="info">Changer le titre de la section Info 1</label>
+            <input type="text" name="title_info_1" value="<?= htmlspecialchars($shop_infos['title_info_1']) ?>">
+            <label for="info">Changer le texte  de la section Info 1</label>
+            <input type="text" name="text_info_1" value="<?= htmlspecialchars($shop_infos['text_info_1']) ?>">
+
+            <label for="info">Changer le titre de la section Info 2</label>
+            <input type="text" name="title_info_2" value="<?= htmlspecialchars($shop_infos['title_info_2']) ?>">
+            <label for="info">Changer le texte  de la section Info 2</label>
+            <input type="text" name="text_info_2" value="<?= htmlspecialchars($shop_infos['text_info_2']) ?>">
+
+            <label for="info">Changer le titre de la section Info 3</label>
+            <input type="text" name="title_info_3" value="<?= htmlspecialchars($shop_infos['title_info_3']) ?>">
+            <label for="info">Changer le texte  de la section Info 3</label>
+            <input type="text" name="text_info_3" value="<?= htmlspecialchars($shop_infos['text_info_3']) ?>">
+
             <button type="submit" name="shop_submit" class="sub__btn">Valider les changements</button>
         </form>
     </div>
