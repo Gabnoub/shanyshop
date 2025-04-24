@@ -18,7 +18,7 @@ if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
     $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $discount = filter_var($_POST['discount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $slug = preg_replace('/[^a-zA-Z0-9\-_]/', '-', $title);
-    $cat_slug = $cat_slug[$category];
+    $catslug = $cat_slug[$category];
 
 
 
@@ -104,7 +104,7 @@ if (isset($_POST['edit_submit']) && isset($_POST['id'])) {
             $category, $en_stock, $title, $material, $color, $size,
             $description1, $bulletpoint1, $bulletpoint2, $bulletpoint3, $bulletpoint4, $description2,
             $cur_images[0], $cur_images[1], $cur_images[2], $cur_images[3],
-            $price, $discount, $final_price, $slug, $cat_slug,
+            $price, $discount, $final_price, $slug, $catslug,
             $id
         );
 

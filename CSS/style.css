@@ -52,7 +52,6 @@ body{
     overflow-x: hidden;
     font-size: 0.9rem;
     line-height: 1.6;
-
 }
 a{
     text-decoration: none;
@@ -93,22 +92,6 @@ img{
 }
 
 /*=====================================================================================================================
-==================================== Category button ===================================================================
-===============*/
-/* .category__btn{
-    background-color: var(--color-primary-light);
-    color: var(--color-primary);
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: var(--card-border-radius-3);
-    font-weight: 600;
-    font-size: 0.8rem;
-    text-align: center;
-}
-.category__btn:hover{
-    background-color: var(--color-white);
-} */
-/*=====================================================================================================================
 ==================================== Promotion STYLES ===================================================================
 ===============*/
 .promotion{
@@ -116,7 +99,7 @@ img{
     height: 34px;
     background-color: var(--color-black);
     text-align: center;
-    place-content: center;
+    justify-self: center;
 }
 /*=====================================================================================================================
 ==================================== Navbar STYLES ===================================================================
@@ -133,6 +116,7 @@ img{
     color: var(--color-white);
     z-index: 10;
     position: relative;
+    justify-self: center;
 }
 .nav__logo{
     font-size: x-large;
@@ -380,13 +364,14 @@ a.nav__link:hover::after {
     background-color: var(--color-white);
     position: relative;
     width: 100vw;
-    height: 590px;
+    aspect-ratio: 16/9;
+    /* height: 590px; */
     overflow: hidden;
     box-shadow: 0 4px 10px var(--color-primary);
     margin: 0;
     padding: 0;
-    /* opacity: 0.5; */
-    /* border: solid 3px red; */
+    /* max-width: 2500px; */
+    justify-self: center;
 }
 
 .call__to-action{
@@ -398,8 +383,7 @@ a.nav__link:hover::after {
     border-radius: 0.2rem;
     background-color: var(--color-primary);
     color: var(--color-white);
-    width: 177px;
-    height: 53px;
+    padding: 1rem 2rem;
     text-align: center;
     place-content: center;
     font-weight: 600;
@@ -632,6 +616,7 @@ a.nav__link:hover::after {
     background: linear-gradient(180deg,rgba(242, 242, 254, 1) 0%, rgba(255, 255, 255, 1) 75%);
     padding: 3rem 0;
     margin-top: 3rem;
+    /* max-width: 2000px; */
 }
 .about__container{
     display: flex;
@@ -644,13 +629,16 @@ a.nav__link:hover::after {
 }
 .about__image{
     margin: 1rem 3rem;
+    flex: 1 1;
+    max-width: 800px;
 }
 .about__text{
     flex: 1 1;
+    max-width: 800px;
 }
 .about__container img {
     width: 460px;
-    height: 460px;
+    aspect-ratio: 1/1;
     object-fit: cover;
     overflow: hidden;
     border-radius: 10px;
@@ -1209,7 +1197,7 @@ table, th, td {
     font-weight: 650;
 }
 .logout {
-    background: rgb(209, 4, 4);
+    background: rgb(74, 11, 11);
     padding: 0.5rem 1rem;
     border-radius: 0.3rem;
     cursor: pointer;
@@ -1220,7 +1208,7 @@ table, th, td {
     z-index: 15;
 }
 .logout:hover {
-    background: rgb(55, 194, 55);
+    background: rgb(197, 18, 9);
 }
 .dashboard .gestion{
     display: flex;
@@ -1385,6 +1373,14 @@ table, th, td {
     }
     .nav__links li:nth-child(4){
         animation-delay: 300ms;
+    }
+    /*======== Caroussel ==========*/
+    .call__to-action{
+
+        border-radius: 0.2rem;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        font-size: small;
     }
     
     /*======== new products/ bestsellers style ==========*/

@@ -83,7 +83,7 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
 
 <!----========================================== Lifestyle section ============================================---->
 <section class="lifestyle animation">
-    <h2>Affirmez votre élégance</h2>    
+    <h2><?= $title_lif ?></h2>    
         <div class="lifestyle__images">
             <img src="<?= ROOT_URL ?>admin/images/<?= $lifestyle_1 ?>" class="lifestyle__image">
             <img src="<?= ROOT_URL ?>admin/images/<?= $lifestyle_2 ?>" class="lifestyle__image">
@@ -122,11 +122,8 @@ echo "<script>const products = " . json_encode($cat_products) . ";</script>";
     <div class="about__container">
         <img class="about__image"  src="<?= ROOT_URL ?>admin/images/<?= $story ?>">
         <article class="about__text">
-            <!-- <h3>Élégance raffinée</h3> -->
-            <!-- <h2>Inspirée par Hawaii</h2> -->
-             <h2>Notre histoire</h2>
+            <h2>Notre histoire</h2>
             <h5><?= $text_story ?></h5>
-            <!-- <a class=" " href="">En savoir plus</a> -->
         </article>
     </div>
 </section>

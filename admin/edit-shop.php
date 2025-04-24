@@ -80,21 +80,24 @@ $shop_infos = $stmt->get_result()->fetch_assoc();
                 <input type="file" name="image_car_3">
                 <input type="hidden" name="current_image_car_3" value="<?= $shop_infos['image_car_3'] ?>">
 
-                <label for="thumbnail">changer image 1 du lifestyle (width/height: 460px)</label>
+                <label for="lifestyle">Changer le titre  de la section Lifestyle</label>
+                <input type="text" name="title_lif" value="<?= htmlspecialchars($shop_infos['title_lif']) ?>">
+
+                <label for="lifestyle">changer image 1 du lifestyle (width/height: 460px)</label>
                 <?php if (!empty($shop_infos['image_lif_1'])): ?>
                     <img src="images/<?= htmlspecialchars($shop_infos['image_lif_1']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
                 <?php endif; ?>
                 <input type="file" name="image_lif_1">
                 <input type="hidden" name="current_image_lif_1" value="<?= $shop_infos['image_lif_1'] ?>">
 
-                <label for="thumbnail">changer image 2 du lifestyle</label>
+                <label for="lifestyle">changer image 2 du lifestyle</label>
                 <?php if (!empty($shop_infos['image_lif_2'])): ?>
                     <img src="images/<?= htmlspecialchars($shop_infos['image_lif_2']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
                 <?php endif; ?>
                 <input type="file" name="image_lif_2">
                 <input type="hidden" name="current_image_lif_2" value="<?= $shop_infos['image_lif_2'] ?>">
 
-                <label for="thumbnail">changer image 3 du lifestyle</label>
+                <label for="lifestyle">changer image 3 du lifestyle</label>
                 <?php if (!empty($shop_infos['image_lif_3'])): ?>
                     <img src="images/<?= htmlspecialchars($shop_infos['image_lif_3']) ?>" style="height: 40px; width: 40px; object-fit:cover; margin-left: 35px;">
                 <?php endif; ?>
@@ -108,6 +111,9 @@ $shop_infos = $stmt->get_result()->fetch_assoc();
                 <input type="file" name="image_story">
                 <input type="hidden" name="current_image_story" value="<?= $shop_infos['image_story'] ?>"> 
             </div>
+            <label for="story">Changer le texte de la story</label>
+            <input type="text" name="text_story" value="<?= htmlspecialchars($shop_infos['text_story']) ?>">
+
             <label for="info">Changer le titre de la section Info 1</label>
             <input type="text" name="title_info_1" value="<?= htmlspecialchars($shop_infos['title_info_1']) ?>">
             <label for="info">Changer le texte  de la section Info 1</label>

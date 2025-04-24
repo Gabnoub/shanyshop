@@ -19,7 +19,7 @@ if (isset($_POST['add_submit'])) {
     $discount = filter_var($_POST['discount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $image1 = $_FILES['image1'];
     $slug = preg_replace('/[^a-zA-Z0-9\-_]/', '-', $title);
-    $cat_slug = $cat_slug[$category];
+    $catslug = $cat_slug[$category];
 
     // if (!$title || !$price || !$description1 || $category === 'null' || $en_stock === 'null') {
     //     $_SESSION['add'] = "please fill in all required fields";
@@ -89,7 +89,7 @@ if (isset($_POST['add_submit'])) {
         $description1, $bulletpoint1, $bulletpoint2, $bulletpoint3, $bulletpoint4,
         $description2,
         $image_names[1], $image_names[2], $image_names[3], $image_names[4],
-        $price, $discount, $final_price, $slug, $cat_slug
+        $price, $discount, $final_price, $slug, $catslug
     );
     
 
